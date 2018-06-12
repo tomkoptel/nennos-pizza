@@ -1,0 +1,25 @@
+*.iml
+.gradle
+local.properties
+.DS_Store
+build
+captures
+.externalNativeBuild
+
+# generated files
+bin/
+gen/
+
+# Local configuration file (sdk path, etc)
+# Windows thumbnail db
+Thumbs.db
+
+# Android Studio
+**/.idea/*
+
+# Exclude team shared project configuration
+!/.idea/fileTemplates/
+!/.idea/inspectionProfiles/
+!/.idea/codeStyles/
+!/.idea/codeStyleSettings.xml
+!/.idea/encodings.xml
