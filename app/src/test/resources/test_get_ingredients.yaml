@@ -1,0 +1,18 @@
+!tape
+name: test get ingredients
+interactions:
+- recorded: 2018-06-12T21:31:04.560Z
+  request:
+    method: GET
+    uri: https://api.myjson.com/bins/ozt3z
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'true'
+      Access-Control-Allow-Origin: '*'
+      Connection: keep-alive
+      Content-Length: '377'
+      Content-Type: application/json
+      Date: Tue, 12 Jun 2018 21:25:55 GMT
+      Server: nginx/1.5.8
+    body: '[{"price":1,"name":"Mozzarella","id":1},{"price":0.5,"name":"Tomato Sauce","id":2},{"price":1.5,"name":"Salami","id":3},{"price":2,"name":"Mushrooms","id":4},{"price":4,"name":"Ricci","id":5},{"price":2,"name":"Asparagus","id":6},{"price":1,"name":"Pineapple","id":7},{"price":3,"name":"Speck","id":8},{"price":2.5,"name":"Bottarga","id":9},{"price":2.2,"name":"Tuna","id":10}]'

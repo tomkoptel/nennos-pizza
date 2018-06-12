@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.Coroutines
-
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -44,13 +42,8 @@ android {
     }
 }
 
-kotlin {
-    experimental.coroutines = Coroutines.ENABLE
-}
-
 dependencies {
     implementation(Deps.kotlinStdlibJdk7)
-    implementation(Deps.kotlinCoroutines)
 
     implementation(Deps.appCompat)
     implementation(Deps.material)
@@ -61,7 +54,9 @@ dependencies {
 
     implementation(Deps.retrofit)
     implementation(Deps.retrofitMoshiConverter)
-    implementation(Deps.retrofitCoroutinesAdapter)
+    implementation(Deps.retrofitRxAdapter)
+    debugImplementation(Deps.okReplay)
+    releaseImplementation(Deps.okReplayNoop)
 
     implementation(Deps.moshi)
     kapt(Deps.moshiCodeGen)
@@ -70,9 +65,13 @@ dependencies {
 
     implementation(Deps.kodein)
 
+    implementation(Deps.rxJava)
+    implementation(Deps.rxAndroid)
+
     testImplementation(Deps.junit4)
     testImplementation(Deps.kluent)
     testImplementation(Deps.mockk)
+    testImplementation(Deps.okReplayTest)
 
     androidTestImplementation(Deps.espressoContrib)
     androidTestImplementation(Deps.androidTestRules)

@@ -1,0 +1,20 @@
+!tape
+name: test get pizza
+interactions:
+- recorded: 2018-06-12T21:31:06.569Z
+  request:
+    method: GET
+    uri: https://api.myjson.com/bins/dokm7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'true'
+      Access-Control-Allow-Origin: '*'
+      Connection: keep-alive
+      Content-Length: '965'
+      Content-Type: application/json
+      Date: Tue, 12 Jun 2018 21:25:57 GMT
+      Server: nginx/1.5.8
+    body: '{"basePrice":4,"pizzas":[{"ingredients":[1,2],"name":"Margherita","imageUrl":"https://cdn.pbrd.co/images/M57yElqQo.png"},{"ingredients":[1,5],"name":"Ricci","imageUrl":"https://cdn.pbrd.co/images/M58jWCFVC.png"},{"ingredients":[1,2,3,4],"name":"Boscaiola","imageUrl":"https://cdn.pbrd.co/images/tOhJQ5N3.png"},{"ingredients":[1,5,6],"name":"Primavera","imageUrl":"https://cdn.pbrd.co/images/M57VcfLGQ.png"},{"ingredients":[1,2,7,8],"name":"Hawaii","imageUrl":"https://cdn.pbrd.co/images/M57lNSLnC.png"},{"ingredients":[1,9,10],"name":"Mare
+      Bianco"},{"ingredients":[1,2,4,8,9,10],"name":"Mari e monti","imageUrl":"https://cdn.pbrd.co/images/M57K6OFiU.png"},{"ingredients":[1,9],"name":"Bottarga","imageUrl":"https://cdn.pbrd.co/images/M57aGTmgA.png"},{"ingredients":[1,2,9,6],"name":"Boottarga
+      e Asparagi","imageUrl":"https://cdn.pbrd.co/images/4O6T9RQLX.png"},{"ingredients":[1,5,6],"name":"Ricci e Asparagi","imageUrl":"https://cdn.pbrd.co/images/4O70NDkMl.png"}]}'

@@ -9,6 +9,8 @@ object Versions {
 
 object Deps {
     private const val androidxViewVersion = "1.0.0-alpha3"
+    private const val retrofitVersion = "2.4.0"
+    private const val okReplayVersion = "1.4.0"
 
     // Android Jetpack
     const val androidXcore = "androidx.core:core:$androidxViewVersion"
@@ -20,14 +22,20 @@ object Deps {
 
     // Kotlin
     const val kotlinStdlibJdk7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlinVersion}"
-    const val kotlinCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5"
 
     // Network
-    const val retrofit = "com.squareup.retrofit2:retrofit:2.4.0"
-    const val retrofitMoshiConverter = "com.squareup.retrofit2:converter-moshi:2.4.0"
-    const val retrofitCoroutinesAdapter = "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:1.0.0"
+    const val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    const val retrofitMoshiConverter = "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+    const val retrofitRxAdapter = "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
     const val moshi = "com.squareup.moshi:moshi:1.6.0"
     const val moshiCodeGen = "com.squareup.moshi:moshi-kotlin-codegen:1.6.0"
+    const val okReplay = "com.airbnb.okreplay:okreplay:$okReplayVersion"
+    const val okReplayNoop = "com.airbnb.okreplay:noop:$okReplayVersion"
+    const val okReplayTest = "com.airbnb.okreplay:junit:$okReplayVersion"
+
+    // Utils
+    const val rxJava = "io.reactivex.rxjava2:rxjava:2.1.14"
+    const val rxAndroid = "io.reactivex.rxjava2:rxandroid:2.0.2"
 
     // Logging
     const val timber = "com.jakewharton.timber:timber:4.7.0"
