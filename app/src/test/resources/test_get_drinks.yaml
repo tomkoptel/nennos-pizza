@@ -1,0 +1,18 @@
+!tape
+name: test get drinks
+interactions:
+- recorded: 2018-06-12T21:31:05.545Z
+  request:
+    method: GET
+    uri: https://api.myjson.com/bins/150da7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'true'
+      Access-Control-Allow-Origin: '*'
+      Connection: keep-alive
+      Content-Length: '192'
+      Content-Type: application/json
+      Date: Tue, 12 Jun 2018 21:25:56 GMT
+      Server: nginx/1.5.8
+    body: '[{"price":1,"name":"Still Water","id":1},{"price":1.5,"name":"Sparkling Water","id":2},{"price":2.5,"name":"Coke","id":3},{"price":3,"name":"Beer","id":4},{"price":4,"name":"Red Wine","id":5}]'

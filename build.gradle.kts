@@ -6,6 +6,7 @@ buildscript {
     dependencies {
         classpath(Plugins.androidTools)
         classpath(Plugins.kotlin)
+        classpath(Plugins.navPlugin)
     }
 }
 

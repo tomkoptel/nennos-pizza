@@ -1,10 +1,9 @@
-import org.jetbrains.kotlin.gradle.dsl.Coroutines
-
 plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
     id("org.jetbrains.kotlin.android.extensions")
+    id("androidx.navigation.safeargs")
 }
 
 apply {
@@ -40,40 +39,67 @@ android {
        }
        getByName("androidTest") {
            (java.srcDirs + "src/androidTest/kotlin").let { java.setSrcDirs(it) }
+           // used by Room, to test migrations
+           (assets.srcDirs + files("$projectDir/schemas")).let { assets.setSrcDirs(it) }
        }
     }
-}
 
-kotlin {
-    experimental.coroutines = Coroutines.ENABLE
+    // Allow Room database to save the schem files
+    kapt {
+        arguments {
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
+    }
+
 }
 
 dependencies {
     implementation(Deps.kotlinStdlibJdk7)
-    implementation(Deps.kotlinCoroutines)
 
     implementation(Deps.appCompat)
     implementation(Deps.material)
     implementation(Deps.recyclerView)
     implementation(Deps.constraintLayout)
     implementation(Deps.androidXcore)
-    implementation(Deps.lifecycleLivedata)
+    implementation(Deps.liveData)
+    implementation(Deps.liveDataReactive)
 
     implementation(Deps.retrofit)
     implementation(Deps.retrofitMoshiConverter)
-    implementation(Deps.retrofitCoroutinesAdapter)
+    implementation(Deps.retrofitRxAdapter)
+    debugImplementation(Deps.okReplay)
+    releaseImplementation(Deps.okReplayNoop)
 
     implementation(Deps.moshi)
     kapt(Deps.moshiCodeGen)
 
+    implementation(Deps.roomCommon)
+    implementation(Deps.roomMigration)
+    implementation(Deps.roomRuntime)
+    implementation(Deps.roomRxJava)
+    kapt(Deps.roomCompiler)
+
     implementation(Deps.timber)
 
-    implementation(Deps.kodein)
+    implementation(Deps.kodeinJvm)
+    implementation(Deps.kodeinAndroid)
+
+    implementation(Deps.rxJava)
+    implementation(Deps.rxAndroid)
+    implementation(Deps.rxKotlin)
+    implementation(Deps.picasso)
+
+    implementation(Deps.navFragment)
+    implementation(Deps.navUi)
 
     testImplementation(Deps.junit4)
     testImplementation(Deps.kluent)
     testImplementation(Deps.mockk)
+    testImplementation(Deps.okReplayTest)
 
     androidTestImplementation(Deps.espressoContrib)
     androidTestImplementation(Deps.androidTestRules)
+    androidTestImplementation(Deps.kluentAndroid)
+    androidTestImplementation(Deps.roomTesting)
+    androidTestImplementation(Deps.navTesting)
 }
