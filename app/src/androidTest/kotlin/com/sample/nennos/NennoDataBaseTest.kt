@@ -3,6 +3,7 @@ package com.sample.nennos
 import androidx.room.Room
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
+import com.sample.nennos.data.DrinkEntry
 import com.sample.nennos.data.IngredientEntry
 import com.sample.nennos.data.NennoDataBase
 import com.sample.nennos.data.PizzaEntry
@@ -18,6 +19,7 @@ class NennoDataBaseTest {
     private lateinit var database: NennoDataBase
     private val pizzaDao by lazy { database.pizzaDao() }
     private val ingredientDao by lazy { database.ingredientDao() }
+    private val drinkDao by lazy { database.drinkDao() }
 
     @Before
     fun setUp() {
@@ -33,7 +35,7 @@ class NennoDataBaseTest {
     }
 
     @Test
-    fun test_insert_of_pizza() {
+    fun test_insert_of_pizzas() {
         val noPizzas = pizzaDao.getPizzas()
         noPizzas.shouldBeEmpty()
 
@@ -46,7 +48,7 @@ class NennoDataBaseTest {
     }
 
     @Test
-    fun test_insert_of_ingredient() {
+    fun test_insert_of_ingredients() {
         val noIngredients = ingredientDao.getIngredients()
         noIngredients.shouldBeEmpty()
 
@@ -56,5 +58,18 @@ class NennoDataBaseTest {
 
         val twoIngredients = ingredientDao.getIngredients()
         twoIngredients shouldContainAll listOf(ingredient1, ingredient2)
+    }
+
+    @Test
+    fun test_insert_of_drinks() {
+        val noDrinks = drinkDao.getDrinks()
+        noDrinks.shouldBeEmpty()
+
+        val drink1 = DrinkEntry(name = "Drink 1", price = 1.0)
+        val drink2 = DrinkEntry(name = "Drink 2", price = 2.0)
+        drinkDao.insertAll(listOf(drink1, drink2))
+
+        val twoDrinks = drinkDao.getDrinks()
+        twoDrinks shouldContainAll listOf(drink1, drink2)
     }
 }
