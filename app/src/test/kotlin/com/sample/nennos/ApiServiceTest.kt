@@ -40,7 +40,7 @@ class ApiServiceTest {
     @Test
     @OkReplay
     fun test_getPizza() {
-        apiUnderTest.getPizza().assertSuccess()
+        apiUnderTest.getPizzas().assertSuccess()
     }
 
     private fun <R> Single<Result<R>>.assertSuccess() {

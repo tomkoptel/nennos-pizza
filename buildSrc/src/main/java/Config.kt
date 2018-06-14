@@ -46,6 +46,7 @@ object Deps {
     // Utils
     const val rxJava = "io.reactivex.rxjava2:rxjava:2.1.14"
     const val rxAndroid = "io.reactivex.rxjava2:rxandroid:2.0.2"
+    const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:2.2.0"
 
     // Logging
     const val timber = "com.jakewharton.timber:timber:4.7.0"

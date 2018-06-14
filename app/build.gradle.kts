@@ -80,6 +80,7 @@ dependencies {
 
     implementation(Deps.rxJava)
     implementation(Deps.rxAndroid)
+    implementation(Deps.rxKotlin)
 
     testImplementation(Deps.junit4)
     testImplementation(Deps.kluent)

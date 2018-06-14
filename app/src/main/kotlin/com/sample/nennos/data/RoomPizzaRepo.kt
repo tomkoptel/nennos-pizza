@@ -1,5 +1,6 @@
 package com.sample.nennos.data
 
+import com.sample.nennos.domain.LookupOperation
 import com.sample.nennos.domain.Pizza
 import com.sample.nennos.domain.PizzaRepo
 import io.reactivex.Completable
@@ -34,11 +35,11 @@ class RoomPizzaRepo(
         }.ignoreElement()
     }
 
-    override fun getAll(): Single<List<Pizza>> =
+    override fun getAll(): Single<LookupOperation<List<Pizza>>> =
             dbProvider().map {
                 val pizzaDao = it.pizzaDao()
                 val ingredientDao = it.ingredientDao()
-                pizzaDao.getPizzas()
+                val pizzas = pizzaDao.getPizzas()
                         .map { pizzaEntity ->
                             val ingredients = ingredientDao.findIngredientsForPizza(pizzaEntity.uid)
                                     .map(IngredientEntity::toDomainObject)
@@ -48,5 +49,6 @@ class RoomPizzaRepo(
                                     ingredients = ingredients
                             )
                         }
-            }
+                LookupOperation.Success(pizzas) as LookupOperation<List<Pizza>>
+            }.onErrorReturn { LookupOperation.Error(it) }
 }

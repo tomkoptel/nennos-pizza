@@ -6,6 +6,7 @@ import androidx.test.runner.AndroidJUnit4
 import com.sample.nennos.data.NennoDataBase
 import com.sample.nennos.data.RoomPizzaRepo
 import com.sample.nennos.domain.Ingredient
+import com.sample.nennos.domain.LookupOperation
 import com.sample.nennos.domain.Pizza
 import io.reactivex.Single
 import org.amshove.kluent.shouldContainAll
@@ -68,6 +69,13 @@ class RoomPizzaRepoTest {
         roomRepo.insertAll(pizzas).blockingAwait(2, TimeUnit.SECONDS)
 
         val pizzasFromDB = roomRepo.getAll().blockingGet()
-        pizzasFromDB shouldContainAll pizzas
+        when (pizzasFromDB) {
+            is LookupOperation.Success -> {
+                pizzasFromDB.data shouldContainAll pizzas
+            }
+            is LookupOperation.Error -> {
+                throw pizzasFromDB.error
+            }
+        }
     }
 }

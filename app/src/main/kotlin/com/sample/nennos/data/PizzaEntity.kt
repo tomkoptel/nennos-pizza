@@ -9,6 +9,7 @@ import java.util.*
 data class PizzaEntity @JvmOverloads constructor(
         @PrimaryKey var uid: String = UUID.randomUUID().toString(),
         var name: String = "",
+        var basePrice: Double = 0.0,
         var imageUrl: String? = null
 )
 
