@@ -3,8 +3,8 @@ package com.sample.nennos
 import androidx.room.Room
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
-import com.sample.nennos.data.DrinkEntry
-import com.sample.nennos.data.IngredientEntry
+import com.sample.nennos.data.DrinkEntity
+import com.sample.nennos.data.IngredientEntity
 import com.sample.nennos.data.NennoDataBase
 import com.sample.nennos.data.PizzaEntry
 import org.amshove.kluent.shouldBeEmpty
@@ -52,8 +52,8 @@ class NennoDataBaseTest {
         val noIngredients = ingredientDao.getIngredients()
         noIngredients.shouldBeEmpty()
 
-        val ingredient1 = IngredientEntry(name = "Ingredient 1", price = 1.0)
-        val ingredient2 = IngredientEntry(name = "Ingredient 2", price = 2.0)
+        val ingredient1 = IngredientEntity(name = "Ingredient 1", price = 1.0)
+        val ingredient2 = IngredientEntity(name = "Ingredient 2", price = 2.0)
         ingredientDao.insertAll(listOf(ingredient1, ingredient2))
 
         val twoIngredients = ingredientDao.getIngredients()
@@ -65,8 +65,8 @@ class NennoDataBaseTest {
         val noDrinks = drinkDao.getDrinks()
         noDrinks.shouldBeEmpty()
 
-        val drink1 = DrinkEntry(name = "Drink 1", price = 1.0)
-        val drink2 = DrinkEntry(name = "Drink 2", price = 2.0)
+        val drink1 = DrinkEntity(name = "Drink 1", price = 1.0)
+        val drink2 = DrinkEntity(name = "Drink 2", price = 2.0)
         drinkDao.insertAll(listOf(drink1, drink2))
 
         val twoDrinks = drinkDao.getDrinks()
