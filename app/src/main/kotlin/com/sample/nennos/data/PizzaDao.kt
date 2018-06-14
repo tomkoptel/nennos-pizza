@@ -8,8 +8,8 @@ import androidx.room.Query
 @Dao
 interface PizzaDao {
     @Query("SELECT * FROM Pizza")
-    fun getPizzas(): List<PizzaEntry>
+    fun getPizzas(): List<PizzaEntity>
 
     @Insert(onConflict = REPLACE)
-    fun insertAll(pizzas: List<PizzaEntry>)
+    fun insert(pizza: PizzaEntity)
 }

@@ -6,7 +6,7 @@ import androidx.test.runner.AndroidJUnit4
 import com.sample.nennos.data.DrinkEntity
 import com.sample.nennos.data.IngredientEntity
 import com.sample.nennos.data.NennoDataBase
-import com.sample.nennos.data.PizzaEntry
+import com.sample.nennos.data.PizzaEntity
 import org.amshove.kluent.shouldBeEmpty
 import org.amshove.kluent.shouldContainAll
 import org.junit.After
@@ -39,9 +39,8 @@ class NennoDataBaseTest {
         val noPizzas = pizzaDao.getPizzas()
         noPizzas.shouldBeEmpty()
 
-        val pizza1 = PizzaEntry(name = "Pizza 1")
-        val pizza2 = PizzaEntry(name = "Pizza 2")
-        pizzaDao.insertAll(listOf(pizza1, pizza2))
+        val pizza1 = PizzaEntity(name = "Pizza 1").insert()
+        val pizza2 = PizzaEntity(name = "Pizza 2").insert()
 
         val twoPizzas = pizzaDao.getPizzas()
         twoPizzas shouldContainAll listOf(pizza1, pizza2)
@@ -52,9 +51,8 @@ class NennoDataBaseTest {
         val noIngredients = ingredientDao.getIngredients()
         noIngredients.shouldBeEmpty()
 
-        val pizza1 = PizzaEntry(name = "Pizza 1")
-        val pizza2 = PizzaEntry(name = "Pizza 2")
-        pizzaDao.insertAll(listOf(pizza1, pizza2))
+        val pizza1 = PizzaEntity(name = "Pizza 1").insert()
+        val pizza2 = PizzaEntity(name = "Pizza 2").insert()
 
         val ingredient1 = IngredientEntity(name = "Ingredient 1", price = 1.0, pizzaId = pizza1.uid)
         val ingredient2 = IngredientEntity(name = "Ingredient 2", price = 2.0, pizzaId = pizza2.uid)
@@ -81,5 +79,10 @@ class NennoDataBaseTest {
 
         val twoDrinks = drinkDao.getDrinks()
         twoDrinks shouldContainAll listOf(drink1, drink2)
+    }
+
+    private fun PizzaEntity.insert(): PizzaEntity {
+        pizzaDao.insert(this)
+        return this
     }
 }
