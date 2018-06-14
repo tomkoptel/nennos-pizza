@@ -12,4 +12,7 @@ interface IngredientDao {
 
     @Insert(onConflict = REPLACE)
     fun insertAll(pizzas: List<IngredientEntity>)
+
+    @Query("SELECT * FROM Ingredient WHERE pizzaId=:pizzaId")
+    fun findIngredientsForPizza(pizzaId: String): List<IngredientEntity>
 }

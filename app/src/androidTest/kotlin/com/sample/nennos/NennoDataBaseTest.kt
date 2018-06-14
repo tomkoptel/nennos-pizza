@@ -52,12 +52,22 @@ class NennoDataBaseTest {
         val noIngredients = ingredientDao.getIngredients()
         noIngredients.shouldBeEmpty()
 
-        val ingredient1 = IngredientEntity(name = "Ingredient 1", price = 1.0)
-        val ingredient2 = IngredientEntity(name = "Ingredient 2", price = 2.0)
+        val pizza1 = PizzaEntry(name = "Pizza 1")
+        val pizza2 = PizzaEntry(name = "Pizza 2")
+        pizzaDao.insertAll(listOf(pizza1, pizza2))
+
+        val ingredient1 = IngredientEntity(name = "Ingredient 1", price = 1.0, pizzaId = pizza1.uid)
+        val ingredient2 = IngredientEntity(name = "Ingredient 2", price = 2.0, pizzaId = pizza2.uid)
         ingredientDao.insertAll(listOf(ingredient1, ingredient2))
 
         val twoIngredients = ingredientDao.getIngredients()
         twoIngredients shouldContainAll listOf(ingredient1, ingredient2)
+
+        val ingredientForPizza1 = ingredientDao.findIngredientsForPizza(pizza1.uid)
+        ingredientForPizza1 shouldContainAll listOf(ingredient1)
+
+        val ingredientForPizza2 = ingredientDao.findIngredientsForPizza(pizza2.uid)
+        ingredientForPizza2 shouldContainAll listOf(ingredient2)
     }
 
     @Test
