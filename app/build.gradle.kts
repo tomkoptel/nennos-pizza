@@ -61,6 +61,12 @@ dependencies {
     implementation(Deps.moshi)
     kapt(Deps.moshiCodeGen)
 
+    implementation(Deps.roomCommon)
+    implementation(Deps.roomMigration)
+    implementation(Deps.roomRuntime)
+    implementation(Deps.roomRxJava)
+    kapt(Deps.roomCompiler)
+
     implementation(Deps.timber)
 
     implementation(Deps.kodein)

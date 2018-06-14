@@ -1,5 +1,5 @@
 object Versions {
-    const val kotlinVersion = "1.2.41"
+    const val kotlinVersion = "1.2.50"
     const val compileSdkVersion = "android-P"
     const val minSdkVersion = 15
     const val targetSdkVersion = "P"
@@ -9,6 +9,7 @@ object Versions {
 
 object Deps {
     private const val androidxViewVersion = "1.0.0-alpha3"
+    private const val roomVersion = "2.0.0-alpha1"
     private const val retrofitVersion = "2.4.0"
     private const val okReplayVersion = "1.4.0"
 
@@ -32,6 +33,13 @@ object Deps {
     const val okReplay = "com.airbnb.okreplay:okreplay:$okReplayVersion"
     const val okReplayNoop = "com.airbnb.okreplay:noop:$okReplayVersion"
     const val okReplayTest = "com.airbnb.okreplay:junit:$okReplayVersion"
+
+    //DB
+    const val roomCommon = "androidx.room:room-common:$roomVersion"
+    const val roomCompiler = "androidx.room:room-compiler:$roomVersion"
+    const val roomMigration = "androidx.room:room-migration:$roomVersion"
+    const val roomRuntime = "androidx.room:room-runtime:$roomVersion"
+    const val roomRxJava = "androidx.room:room-rxjava2:$roomVersion"
 
     // Utils
     const val rxJava = "io.reactivex.rxjava2:rxjava:2.1.14"
