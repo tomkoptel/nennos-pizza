@@ -12,6 +12,7 @@ object Deps {
     private const val roomVersion = "2.0.0-alpha1"
     private const val retrofitVersion = "2.4.0"
     private const val okReplayVersion = "1.4.0"
+    private const val kluentVersion = "1.38"
 
     // Android Jetpack
     const val androidXcore = "androidx.core:core:$androidxViewVersion"
@@ -40,6 +41,7 @@ object Deps {
     const val roomMigration = "androidx.room:room-migration:$roomVersion"
     const val roomRuntime = "androidx.room:room-runtime:$roomVersion"
     const val roomRxJava = "androidx.room:room-rxjava2:$roomVersion"
+    const val roomTesting = "androidx.room:room-testing:$roomVersion"
 
     // Utils
     const val rxJava = "io.reactivex.rxjava2:rxjava:2.1.14"
@@ -52,7 +54,8 @@ object Deps {
     const val kodein = "org.kodein.di:kodein-di-generic-jvm:5.0.0"
 
     // Unit testing
-    const val kluent = "org.amshove.kluent:kluent:1.38"
+    const val kluent = "org.amshove.kluent:kluent:$kluentVersion"
+    const val kluentAndroid = "org.amshove.kluent:kluent-android:$kluentVersion"
     const val mockk = "io.mockk:mockk:1.8.3"
     const val junit4 = "junit:junit:4.12"
 

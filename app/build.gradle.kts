@@ -40,6 +40,13 @@ android {
            (java.srcDirs + "src/androidTest/kotlin").let { java.setSrcDirs(it) }
        }
     }
+
+    // Allow Room database to save the schem files
+    kapt {
+        arguments {
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
+    }
 }
 
 dependencies {
@@ -81,4 +88,6 @@ dependencies {
 
     androidTestImplementation(Deps.espressoContrib)
     androidTestImplementation(Deps.androidTestRules)
+    androidTestImplementation(Deps.kluentAndroid)
+    androidTestImplementation(Deps.roomTesting)
 }
