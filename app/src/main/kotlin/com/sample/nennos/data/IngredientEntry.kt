@@ -4,8 +4,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
 
-@Entity(tableName = "Pizza")
-data class PizzaEntry @JvmOverloads constructor(
+@Entity(tableName = "Ingredient")
+data class IngredientEntry @JvmOverloads constructor(
         @PrimaryKey var uid: String = UUID.randomUUID().toString(),
-        var name: String = ""
+        var name: String = "",
+        var price: Double = 0.0
 )
