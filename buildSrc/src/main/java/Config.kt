@@ -8,13 +8,8 @@ object Versions {
 }
 
 object Deps {
-    private const val androidxViewVersion = "1.0.0-alpha3"
-    private const val roomVersion = "2.0.0-alpha1"
-    private const val retrofitVersion = "2.4.0"
-    private const val okReplayVersion = "1.4.0"
-    private const val kluentVersion = "1.38"
-
     // Android Jetpack
+    private const val androidxViewVersion = "1.0.0-alpha3"
     const val androidXcore = "androidx.core:core:$androidxViewVersion"
     const val appCompat = "androidx.appcompat:appcompat:$androidxViewVersion"
     const val material = "com.google.android.material:material:$androidxViewVersion"
@@ -26,16 +21,22 @@ object Deps {
     const val kotlinStdlibJdk7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlinVersion}"
 
     // Network
+    private const val retrofitVersion = "2.4.0"
     const val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
     const val retrofitMoshiConverter = "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
     const val retrofitRxAdapter = "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
-    const val moshi = "com.squareup.moshi:moshi:1.6.0"
-    const val moshiCodeGen = "com.squareup.moshi:moshi-kotlin-codegen:1.6.0"
+
+    private const val moshiVersion = "1.6.0"
+    const val moshi = "com.squareup.moshi:moshi:$moshiVersion"
+    const val moshiCodeGen = "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
+
+    private const val okReplayVersion = "1.4.0"
     const val okReplay = "com.airbnb.okreplay:okreplay:$okReplayVersion"
     const val okReplayNoop = "com.airbnb.okreplay:noop:$okReplayVersion"
     const val okReplayTest = "com.airbnb.okreplay:junit:$okReplayVersion"
 
     //DB
+    private const val roomVersion = "2.0.0-alpha1"
     const val roomCommon = "androidx.room:room-common:$roomVersion"
     const val roomCompiler = "androidx.room:room-compiler:$roomVersion"
     const val roomMigration = "androidx.room:room-migration:$roomVersion"
@@ -52,9 +53,12 @@ object Deps {
     const val timber = "com.jakewharton.timber:timber:4.7.0"
 
     // DI
-    const val kodein = "org.kodein.di:kodein-di-generic-jvm:5.0.0"
+    private const val kodeinVersion = "5.0.0"
+    const val kodeinJvm = "org.kodein.di:kodein-di-generic-jvm:$kodeinVersion"
+    const val kodeinAndroid = "org.kodein.di:kodein-di-framework-android:$kodeinVersion"
 
     // Unit testing
+    private const val kluentVersion = "1.38"
     const val kluent = "org.amshove.kluent:kluent:$kluentVersion"
     const val kluentAndroid = "org.amshove.kluent:kluent-android:$kluentVersion"
     const val mockk = "io.mockk:mockk:1.8.3"

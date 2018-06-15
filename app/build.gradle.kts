@@ -78,7 +78,8 @@ dependencies {
 
     implementation(Deps.timber)
 
-    implementation(Deps.kodein)
+    implementation(Deps.kodeinJvm)
+    implementation(Deps.kodeinAndroid)
 
     implementation(Deps.rxJava)
     implementation(Deps.rxAndroid)
