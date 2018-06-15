@@ -23,10 +23,10 @@ class RoomPizzaRepo(
                 pizzaEntity to ingredientEntities
             }.toMap()
 
-            val pizzaEntities = pizzaWithIngredients.keys.toList()
+            val pizzaEntities = pizzaWithIngredients.keys
             it.pizzaDao().insertAll(pizzaEntities)
 
-            val ingredientEntities = pizzaWithIngredients.values.flatten().toHashSet().toList()
+            val ingredientEntities = pizzaWithIngredients.values.flatten().toHashSet()
             it.ingredientDao().insertAll(ingredientEntities)
 
             val joinEntities = PizzaIngredientEntity.fromMapping(pizzaWithIngredients)

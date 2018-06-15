@@ -1,15 +1,10 @@
 package com.sample.nennos.persistence
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 
 @Dao
-interface PizzaDao {
+interface PizzaDao : BaseDao<PizzaEntity> {
     @Query("SELECT * FROM Pizza")
     fun getPizzas(): List<PizzaEntity>
-
-    @Insert(onConflict = REPLACE)
-    fun insertAll(pizzas: List<PizzaEntity>)
 }
