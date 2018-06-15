@@ -13,4 +13,4 @@ data class PizzaEntity @JvmOverloads constructor(
         var imageUrl: String? = null
 )
 
-fun Pizza.toDataObject(): PizzaEntity = PizzaEntity(uid = id, name = name, imageUrl = imageUrl)
+fun Pizza.toDataObject(): PizzaEntity = PizzaEntity(uid = id, name = name, imageUrl = imageUrl, basePrice = basePrice)
