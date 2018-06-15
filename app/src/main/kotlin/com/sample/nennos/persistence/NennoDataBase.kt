@@ -24,7 +24,9 @@ abstract class NennoDataBase : RoomDatabase() {
     class Factory(private val appContext: Context) {
         @get:WorkerThread
         val database by lazy {
-            Room.databaseBuilder(appContext, NennoDataBase::class.java, "nenno.db").build()
+            Room.databaseBuilder(appContext, NennoDataBase::class.java, "nenno.db")
+                    .addCallback(Seed)
+                    .build()
         }
 
         @UiThread
