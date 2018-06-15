@@ -38,6 +38,8 @@ android {
        }
        getByName("androidTest") {
            (java.srcDirs + "src/androidTest/kotlin").let { java.setSrcDirs(it) }
+           // used by Room, to test migrations
+           (assets.srcDirs + files("$projectDir/schemas")).let { assets.setSrcDirs(it) }
        }
     }
 
