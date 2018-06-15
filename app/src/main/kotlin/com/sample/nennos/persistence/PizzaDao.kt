@@ -11,5 +11,5 @@ interface PizzaDao {
     fun getPizzas(): List<PizzaEntity>
 
     @Insert(onConflict = REPLACE)
-    fun insert(pizza: PizzaEntity)
+    fun insertAll(pizzas: List<PizzaEntity>)
 }

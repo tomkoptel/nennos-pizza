@@ -35,37 +35,24 @@ class RoomPizzaRepoTest {
         database.close()
     }
 
+    // TODO: Fix me
     @Test
     fun test_insert_all() {
+        val pepper = Ingredient(name = "Chili Pepper", price = 5.0)
+        val cheese = Ingredient(name = "Cheese", price = 2.0)
+        val ananas = Ingredient(name = "Ananas", price = 3.0)
         val chiliPizza = Pizza(
                 name = "Chili",
                 imageUrl = "any",
-                ingredients = listOf(
-                        Ingredient(
-                                name = "Chili Pepper",
-                                price = 1.0
-                        ),
-                        Ingredient(
-                                name = "Salami",
-                                price = 2.0
-                        )
-                )
+                ingredients = listOf(pepper, cheese)
         )
-        val sweetPizza = Pizza(
-                name = "Sweet",
+        val hawaiiPizza = Pizza(
+                name = "Hawaii",
                 imageUrl = "any",
-                ingredients = listOf(
-                        Ingredient(
-                                name = "Tofu",
-                                price = 1.0
-                        ),
-                        Ingredient(
-                                name = "Chocolate",
-                                price = 2.0
-                        )
-                )
+                ingredients = listOf(ananas, cheese)
         )
-        val pizzas = listOf(chiliPizza, sweetPizza)
+
+        val pizzas = listOf(chiliPizza, hawaiiPizza)
         roomRepo.insertAll(pizzas).blockingAwait(2, TimeUnit.SECONDS)
 
         val pizzasFromDB = roomRepo.getAll().blockingGet()

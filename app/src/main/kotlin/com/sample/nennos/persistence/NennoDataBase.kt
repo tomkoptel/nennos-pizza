@@ -8,11 +8,17 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import io.reactivex.Single
 
-@Database(entities = arrayOf(PizzaEntity::class, IngredientEntity::class, DrinkEntity::class), version = 1)
+@Database(entities = arrayOf(
+        PizzaEntity::class,
+        IngredientEntity::class,
+        DrinkEntity::class,
+        PizzaIngredientEntity::class
+), version = 1)
 abstract class NennoDataBase : RoomDatabase() {
 
     abstract fun pizzaDao(): PizzaDao
     abstract fun ingredientDao(): IngredientDao
+    abstract fun pizzaIngredientJoinDao(): PizzaIngredientJoinDao
     abstract fun drinkDao(): DrinkDao
 
     class Factory(private val appContext: Context) {

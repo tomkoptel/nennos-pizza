@@ -3,10 +3,7 @@ package com.sample.nennos
 import androidx.room.Room
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
-import com.sample.nennos.persistence.DrinkEntity
-import com.sample.nennos.persistence.IngredientEntity
-import com.sample.nennos.persistence.NennoDataBase
-import com.sample.nennos.persistence.PizzaEntity
+import com.sample.nennos.persistence.*
 import org.amshove.kluent.shouldBeEmpty
 import org.amshove.kluent.shouldContainAll
 import org.junit.After
@@ -20,6 +17,7 @@ class NennoDataBaseTest {
     private val pizzaDao by lazy { database.pizzaDao() }
     private val ingredientDao by lazy { database.ingredientDao() }
     private val drinkDao by lazy { database.drinkDao() }
+    private val pizzaIngredientJoinDao by lazy { database.pizzaIngredientJoinDao() }
 
     @Before
     fun setUp() {
@@ -35,37 +33,33 @@ class NennoDataBaseTest {
     }
 
     @Test
-    fun test_insert_of_pizzas() {
-        val noPizzas = pizzaDao.getPizzas()
-        noPizzas.shouldBeEmpty()
-
-        val pizza1 = PizzaEntity(name = "Pizza 1").insert()
-        val pizza2 = PizzaEntity(name = "Pizza 2").insert()
+    fun test_insert_of_ingredients_and_pizza() {
+        val pizza1 = PizzaEntity(name = "Pizza 1")
+        val pizza2 = PizzaEntity(name = "Pizza 2")
+        pizzaDao.insertAll(listOf(pizza1, pizza2))
 
         val twoPizzas = pizzaDao.getPizzas()
         twoPizzas shouldContainAll listOf(pizza1, pizza2)
-    }
 
-    @Test
-    fun test_insert_of_ingredients() {
-        val noIngredients = ingredientDao.getIngredients()
-        noIngredients.shouldBeEmpty()
+        val ingredient1 = IngredientEntity(name = "Ingredient 1", price = 1.0)
+        val ingredient2 = IngredientEntity(name = "Ingredient 2", price = 2.0)
+        val ingredient3 = IngredientEntity(name = "Ingredient 3", price = 3.0)
+        ingredientDao.insertAll(listOf(ingredient1, ingredient2, ingredient3))
 
-        val pizza1 = PizzaEntity(name = "Pizza 1").insert()
-        val pizza2 = PizzaEntity(name = "Pizza 2").insert()
+        val threeIngredients = ingredientDao.getIngredients()
+        threeIngredients shouldContainAll listOf(ingredient1, ingredient2, ingredient3)
 
-        val ingredient1 = IngredientEntity(name = "Ingredient 1", price = 1.0, pizzaId = pizza1.uid)
-        val ingredient2 = IngredientEntity(name = "Ingredient 2", price = 2.0, pizzaId = pizza2.uid)
-        ingredientDao.insertAll(listOf(ingredient1, ingredient2))
+        val relations = mapOf(
+                pizza1 to listOf(ingredient1, ingredient2),
+                pizza2 to listOf(ingredient1, ingredient2, ingredient3)
+        ).let { PizzaIngredientEntity.fromMapping(it) }
+        pizzaIngredientJoinDao.insertAll(relations)
 
-        val twoIngredients = ingredientDao.getIngredients()
-        twoIngredients shouldContainAll listOf(ingredient1, ingredient2)
+        val pizza1Ingredients = pizzaIngredientJoinDao.getIngredientsForPizza(pizza1.uid)
+        pizza1Ingredients shouldContainAll listOf(ingredient1, ingredient2)
 
-        val ingredientForPizza1 = ingredientDao.findIngredientsForPizza(pizza1.uid)
-        ingredientForPizza1 shouldContainAll listOf(ingredient1)
-
-        val ingredientForPizza2 = ingredientDao.findIngredientsForPizza(pizza2.uid)
-        ingredientForPizza2 shouldContainAll listOf(ingredient2)
+        val pizza2Ingredients = pizzaIngredientJoinDao.getIngredientsForPizza(pizza2.uid)
+        pizza2Ingredients shouldContainAll listOf(ingredient1, ingredient2, ingredient3)
     }
 
     @Test
@@ -79,10 +73,5 @@ class NennoDataBaseTest {
 
         val twoDrinks = drinkDao.getDrinks()
         twoDrinks shouldContainAll listOf(drink1, drink2)
-    }
-
-    private fun PizzaEntity.insert(): PizzaEntity {
-        pizzaDao.insert(this)
-        return this
     }
 }

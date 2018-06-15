@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1a5fd76017a6cf20d5cb19052841e757",
+    "identityHash": "701546c8cec825eda9f799e6bfaf2928",
     "entities": [
       {
         "tableName": "Pizza",
@@ -44,19 +44,13 @@
       },
       {
         "tableName": "Ingredient",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` TEXT NOT NULL, `pizzaId` TEXT, `name` TEXT NOT NULL, `price` REAL NOT NULL, PRIMARY KEY(`uid`), FOREIGN KEY(`pizzaId`) REFERENCES `Pizza`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` TEXT NOT NULL, `name` TEXT NOT NULL, `price` REAL NOT NULL, PRIMARY KEY(`uid`))",
         "fields": [
           {
             "fieldPath": "uid",
             "columnName": "uid",
             "affinity": "TEXT",
             "notNull": true
-          },
-          {
-            "fieldPath": "pizzaId",
-            "columnName": "pizzaId",
-            "affinity": "TEXT",
-            "notNull": false
           },
           {
             "fieldPath": "name",
@@ -78,19 +72,7 @@
           "autoGenerate": false
         },
         "indices": [],
-        "foreignKeys": [
-          {
-            "table": "Pizza",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "pizzaId"
-            ],
-            "referencedColumns": [
-              "uid"
-            ]
-          }
-        ]
+        "foreignKeys": []
       },
       {
         "tableName": "Drink",
@@ -123,11 +105,61 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "PizzaIngredient",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pizzaId` TEXT NOT NULL, `ingredientId` TEXT NOT NULL, PRIMARY KEY(`pizzaId`, `ingredientId`), FOREIGN KEY(`pizzaId`) REFERENCES `Pizza`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`ingredientId`) REFERENCES `Ingredient`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "pizzaId",
+            "columnName": "pizzaId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ingredientId",
+            "columnName": "ingredientId",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "pizzaId",
+            "ingredientId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "Pizza",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "pizzaId"
+            ],
+            "referencedColumns": [
+              "uid"
+            ]
+          },
+          {
+            "table": "Ingredient",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "ingredientId"
+            ],
+            "referencedColumns": [
+              "uid"
+            ]
+          }
+        ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1a5fd76017a6cf20d5cb19052841e757\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"701546c8cec825eda9f799e6bfaf2928\")"
     ]
   }
 }

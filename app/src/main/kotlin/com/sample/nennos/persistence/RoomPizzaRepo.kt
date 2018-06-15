@@ -1,5 +1,6 @@
 package com.sample.nennos.persistence
 
+import com.sample.nennos.domain.Ingredient
 import com.sample.nennos.domain.LookupOperation
 import com.sample.nennos.domain.Pizza
 import com.sample.nennos.domain.PizzaRepo
@@ -15,33 +16,32 @@ class RoomPizzaRepo(
 
     override fun insertAll(pizzas: List<Pizza>): Completable {
         return dbProvider().map {
-            val pizzaDao = it.pizzaDao()
-            val ingredientDao = it.ingredientDao()
+            val pizzaWithIngredients = pizzas.map {
+                val pizzaEntity = it.toDataObject()
+                val ingredientEntities = it.ingredients.map(Ingredient::toDataObject)
 
-            it.beginTransaction()
-            try {
-                pizzas.forEach {
-                    val pizza = it.toDataObject()
-                    val ingredients = it.ingredients.map { it.toDataObject(pizza) }
+                pizzaEntity to ingredientEntities
+            }.toMap()
 
-                    pizzaDao.insert(pizza)
-                    ingredientDao.insertAll(ingredients)
-                }
+            val pizzaEntities = pizzaWithIngredients.keys.toList()
+            it.pizzaDao().insertAll(pizzaEntities)
 
-                it.setTransactionSuccessful()
-            } finally {
-                it.endTransaction()
-            }
+            val ingredientEntities = pizzaWithIngredients.values.flatten().toHashSet().toList()
+            it.ingredientDao().insertAll(ingredientEntities)
+
+            val joinEntities = PizzaIngredientEntity.fromMapping(pizzaWithIngredients)
+            it.pizzaIngredientJoinDao().insertAll(joinEntities)
         }.ignoreElement()
     }
 
     override fun getAll(): Single<LookupOperation<List<Pizza>>> =
             dbProvider().map {
                 val pizzaDao = it.pizzaDao()
-                val ingredientDao = it.ingredientDao()
+                val pizzaIngredientJoinDao = it.pizzaIngredientJoinDao()
+
                 val pizzas = pizzaDao.getPizzas()
                         .map { pizzaEntity ->
-                            val ingredients = ingredientDao.findIngredientsForPizza(pizzaEntity.uid)
+                            val ingredients = pizzaIngredientJoinDao.getIngredientsForPizza(pizzaEntity.uid)
                                     .map(IngredientEntity::toDomainObject)
                             Pizza(id = pizzaEntity.uid,
                                     name = pizzaEntity.name,
