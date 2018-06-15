@@ -1,4 +1,4 @@
-package com.sample.nennos.data
+package com.sample.nennos.persistence
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

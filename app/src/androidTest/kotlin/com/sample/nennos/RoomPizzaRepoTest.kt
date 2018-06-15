@@ -3,11 +3,11 @@ package com.sample.nennos
 import androidx.room.Room
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
-import com.sample.nennos.data.NennoDataBase
-import com.sample.nennos.data.RoomPizzaRepo
 import com.sample.nennos.domain.Ingredient
 import com.sample.nennos.domain.LookupOperation
 import com.sample.nennos.domain.Pizza
+import com.sample.nennos.persistence.NennoDataBase
+import com.sample.nennos.persistence.RoomPizzaRepo
 import io.reactivex.Single
 import org.amshove.kluent.shouldContainAll
 import org.junit.After

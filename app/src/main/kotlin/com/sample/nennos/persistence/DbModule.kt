@@ -1,4 +1,4 @@
-package com.sample.nennos.data
+package com.sample.nennos.persistence
 
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind

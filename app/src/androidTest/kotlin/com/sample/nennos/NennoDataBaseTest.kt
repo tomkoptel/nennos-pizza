@@ -3,10 +3,10 @@ package com.sample.nennos
 import androidx.room.Room
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
-import com.sample.nennos.data.DrinkEntity
-import com.sample.nennos.data.IngredientEntity
-import com.sample.nennos.data.NennoDataBase
-import com.sample.nennos.data.PizzaEntity
+import com.sample.nennos.persistence.DrinkEntity
+import com.sample.nennos.persistence.IngredientEntity
+import com.sample.nennos.persistence.NennoDataBase
+import com.sample.nennos.persistence.PizzaEntity
 import org.amshove.kluent.shouldBeEmpty
 import org.amshove.kluent.shouldContainAll
 import org.junit.After

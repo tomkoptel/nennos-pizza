@@ -2,7 +2,7 @@ package com.sample.nennos
 
 import android.app.Application
 import android.content.Context
-import com.sample.nennos.data.dbModule
+import com.sample.nennos.persistence.dbModule
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.generic.bind

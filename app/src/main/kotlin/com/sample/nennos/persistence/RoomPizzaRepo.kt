@@ -1,4 +1,4 @@
-package com.sample.nennos.data
+package com.sample.nennos.persistence
 
 import com.sample.nennos.domain.LookupOperation
 import com.sample.nennos.domain.Pizza

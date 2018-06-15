@@ -1,4 +1,4 @@
-package com.sample.nennos.data
+package com.sample.nennos.persistence
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -6,10 +6,10 @@ import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 
 @Dao
-interface DrinkDao {
-    @Query("SELECT * FROM Drink")
-    fun getDrinks(): List<DrinkEntity>
+interface PizzaDao {
+    @Query("SELECT * FROM Pizza")
+    fun getPizzas(): List<PizzaEntity>
 
     @Insert(onConflict = REPLACE)
-    fun insertAll(pizzas: List<DrinkEntity>)
+    fun insert(pizza: PizzaEntity)
 }
