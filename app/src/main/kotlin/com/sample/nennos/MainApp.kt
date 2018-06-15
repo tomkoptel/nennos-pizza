@@ -1,20 +1,16 @@
 package com.sample.nennos
 
 import android.app.Application
-import android.content.Context
 import com.sample.nennos.persistence.dbModule
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.provider
+import org.kodein.di.android.androidModule
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
 class MainApp : Application(), KodeinAware {
-    private val app = this
-
     override val kodein = Kodein.lazy {
-        bind<Context>() with provider { app }
+        import(androidModule(this@MainApp))
         import(dbModule)
     }
 
