@@ -1,6 +1,6 @@
 package com.sample.nennos.persistence
 
-import android.content.Context
+import android.app.Application
 import androidx.annotation.UiThread
 import androidx.annotation.WorkerThread
 import androidx.room.Database
@@ -21,10 +21,10 @@ abstract class NennoDataBase : RoomDatabase() {
     abstract fun pizzaIngredientJoinDao(): PizzaIngredientJoinDao
     abstract fun drinkDao(): DrinkDao
 
-    class Factory(private val appContext: Context) {
+    class Factory(private val app: Application) {
         @get:WorkerThread
         val database by lazy {
-            Room.databaseBuilder(appContext, NennoDataBase::class.java, "nenno.db")
+            Room.databaseBuilder(app, NennoDataBase::class.java, "nenno.db")
                     .addCallback(Seed)
                     .build()
         }

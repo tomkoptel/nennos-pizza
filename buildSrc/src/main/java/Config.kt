@@ -15,7 +15,10 @@ object Deps {
     const val material = "com.google.android.material:material:$androidxViewVersion"
     const val recyclerView = "androidx.recyclerview:recyclerview:$androidxViewVersion"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:1.1.0"
-    const val lifecycleLivedata = "androidx.lifecycle:lifecycle-livedata:2.0.0-alpha1"
+
+    private const val lifecycleVersion = "2.0.0-alpha1"
+    const val liveData = "androidx.lifecycle:lifecycle-livedata:$lifecycleVersion"
+    const val liveDataReactive = "androidx.lifecycle:lifecycle-reactivestreams:$lifecycleVersion"
 
     // Kotlin
     const val kotlinStdlibJdk7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlinVersion}"

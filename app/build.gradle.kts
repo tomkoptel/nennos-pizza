@@ -49,6 +49,7 @@ android {
             arg("room.schemaLocation", "$projectDir/schemas")
         }
     }
+
 }
 
 dependencies {
@@ -59,7 +60,8 @@ dependencies {
     implementation(Deps.recyclerView)
     implementation(Deps.constraintLayout)
     implementation(Deps.androidXcore)
-    implementation(Deps.lifecycleLivedata)
+    implementation(Deps.liveData)
+    implementation(Deps.liveDataReactive)
 
     implementation(Deps.retrofit)
     implementation(Deps.retrofitMoshiConverter)
