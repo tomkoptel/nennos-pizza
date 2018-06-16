@@ -16,6 +16,11 @@ object Deps {
     const val recyclerView = "androidx.recyclerview:recyclerview:$androidxViewVersion"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:1.1.0"
 
+    private const val navVersion = "1.0.0-alpha02"
+    const val navFragment = "android.arch.navigation:navigation-fragment-ktx:$navVersion"
+    const val navUi = "android.arch.navigation:navigation-ui-ktx:$navVersion"
+    const val navTesting = "android.arch.navigation:navigation-testing:$navVersion"
+
     private const val lifecycleVersion = "2.0.0-alpha1"
     const val liveData = "androidx.lifecycle:lifecycle-livedata:$lifecycleVersion"
     const val liveDataReactive = "androidx.lifecycle:lifecycle-reactivestreams:$lifecycleVersion"
@@ -75,4 +80,5 @@ object Deps {
 object Plugins {
     const val androidTools = "com.android.tools.build:gradle:3.2.0-alpha18"
     const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlinVersion}"
+    const val navPlugin = "android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0-alpha02"
 }

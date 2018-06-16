@@ -3,6 +3,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("org.jetbrains.kotlin.android.extensions")
+    id("androidx.navigation.safeargs")
 }
 
 apply {
@@ -87,6 +88,9 @@ dependencies {
     implementation(Deps.rxAndroid)
     implementation(Deps.rxKotlin)
 
+    implementation(Deps.navFragment)
+    implementation(Deps.navUi)
+
     testImplementation(Deps.junit4)
     testImplementation(Deps.kluent)
     testImplementation(Deps.mockk)
@@ -96,4 +100,5 @@ dependencies {
     androidTestImplementation(Deps.androidTestRules)
     androidTestImplementation(Deps.kluentAndroid)
     androidTestImplementation(Deps.roomTesting)
+    androidTestImplementation(Deps.navTesting)
 }
