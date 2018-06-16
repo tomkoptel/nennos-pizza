@@ -1,4 +1,4 @@
-package com.sample.nennos
+package com.sample.nennos.pizzas
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.sample.nennos.R
 import com.sample.nennos.domain.Pizza
 import com.sample.nennos.ktx.formattedPrice
 import com.sample.nennos.ktx.load

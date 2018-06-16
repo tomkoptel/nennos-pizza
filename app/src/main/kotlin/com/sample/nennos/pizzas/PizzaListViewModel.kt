@@ -1,4 +1,4 @@
-package com.sample.nennos
+package com.sample.nennos.pizzas
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +9,7 @@ import com.sample.nennos.ktx.arch.toLiveData
 import com.sample.nennos.rx.AppSchedulers
 import com.sample.nennos.rx.fromIOToUI
 
-class MainViewModel(
+class PizzaListViewModel(
         private val pizzaRepo: PizzaRepo,
         private val schedulers: AppSchedulers
 ) : ViewModel() {
