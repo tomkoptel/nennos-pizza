@@ -4,9 +4,10 @@
   <color name="colorPrimaryLight">#ffffff</color>
   <color name="colorPrimaryDark">#c7c7c7</color>
 
-  <color name="colorSecondary">#bf360c</color>
+  <color name="colorSecondary">#d73636</color>
   <color name="colorSecondaryLight">#f9683a</color>
   <color name="colorSecondaryDark">#870000</color>
+  <color name="colorBtnBuy">#fdc422</color>
 
   <color name="textColorPrimary">#000000</color>
   <color name="textColorSecondary">#ffffff</color>

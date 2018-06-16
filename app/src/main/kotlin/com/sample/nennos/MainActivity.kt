@@ -18,7 +18,7 @@ import timber.log.Timber
 class MainActivity : KodeinActivity() {
     override fun activityModule() =
             Kodein.Module {
-                bind<PizzaAdapter>() with provider { PizzaAdapter(instance()) }
+                bind<PizzaAdapter>() with provider { PizzaAdapter(instance(), instance()) }
                 bind<MainViewModel>() with provider {
                     instance<FragmentActivity>().provideModel { MainViewModel(instance(), instance()) }
                 }

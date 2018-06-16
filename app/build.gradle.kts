@@ -87,6 +87,7 @@ dependencies {
     implementation(Deps.rxJava)
     implementation(Deps.rxAndroid)
     implementation(Deps.rxKotlin)
+    implementation(Deps.picasso)
 
     implementation(Deps.navFragment)
     implementation(Deps.navUi)

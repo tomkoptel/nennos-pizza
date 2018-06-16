@@ -12,10 +12,18 @@
     </style>
 
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar" >
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar">
         <item name="android:textColorPrimary">?attr/colorSecondary</item>
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
+
+    <style name="AppTheme.Button.Buy" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@color/colorBtnBuy</item>
+    </style>
+
+    <style name="CustomAccentOverlay" parent="ThemeOverlay.AppCompat">
+        <item name="colorSecondary">@color/colorBtnBuy</item>
+    </style>
 
 </resources>

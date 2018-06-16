@@ -1,26 +1,41 @@
 package com.sample.nennos
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sample.nennos.domain.Pizza
+import com.sample.nennos.ktx.formattedPrice
+import com.sample.nennos.ktx.load
+import com.squareup.picasso.Picasso
 
-class PizzaAdapter(private val inflater: LayoutInflater) : ListAdapter<Pizza, PizzaAdapter.PizzaHolder>(PizzaDiffCallback) {
+class PizzaAdapter(private val inflater: LayoutInflater, private val picasso: Picasso) : ListAdapter<Pizza, PizzaAdapter.PizzaHolder>(PizzaDiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PizzaHolder {
-        val textView = inflater.inflate(android.R.layout.simple_list_item_1, parent, false)
-        return PizzaHolder(textView as TextView)
+        val viewGroup = inflater.inflate(R.layout.pizza_item_row, parent, false)
+        return PizzaHolder(viewGroup, picasso)
     }
 
     override fun onBindViewHolder(holder: PizzaHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    class PizzaHolder(private val textView: TextView) : RecyclerView.ViewHolder(textView) {
+    class PizzaHolder(itemView: View, private val picasso: Picasso) : RecyclerView.ViewHolder(itemView) {
+        private val pizzaName by lazy(LazyThreadSafetyMode.NONE) { itemView.findViewById<TextView>(R.id.pizzaName) }
+        private val pizzaIngredients by lazy(LazyThreadSafetyMode.NONE) { itemView.findViewById<TextView>(R.id.ingredientsList) }
+        private val pizzaImage by lazy(LazyThreadSafetyMode.NONE) { itemView.findViewById<ImageView>(R.id.pizzaImage) }
+        private val payButton by lazy(LazyThreadSafetyMode.NONE) { itemView.findViewById<Button>(R.id.payButton) }
+
         fun bind(pizza: Pizza) {
-            textView.text = pizza.toString()
+            pizzaName.text = pizza.name
+            payButton.text = pizza.formattedPrice()
+            pizzaIngredients.text = pizza.ingredientNames
+            pizzaImage.contentDescription = pizza.name
+            pizzaImage.load(picasso, pizza.imageUrl)
         }
     }
 }
