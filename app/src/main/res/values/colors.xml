@@ -12,4 +12,6 @@
   <color name="textColorSecondary">#ffffff</color>
 
   <color name="ic_launcher_background">#FFFFFF</color>
+
+  <color name="pizzaOverlay">#50000000</color>
 </resources>
