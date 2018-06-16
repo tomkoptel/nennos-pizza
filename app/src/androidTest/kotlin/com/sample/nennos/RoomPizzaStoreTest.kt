@@ -7,7 +7,7 @@ import com.sample.nennos.domain.Ingredient
 import com.sample.nennos.domain.LookupOperation
 import com.sample.nennos.domain.Pizza
 import com.sample.nennos.persistence.NennoDataBase
-import com.sample.nennos.persistence.RoomPizzaRepo
+import com.sample.nennos.persistence.RoomPizzaStore
 import io.reactivex.Single
 import org.amshove.kluent.shouldContainAll
 import org.junit.After
@@ -17,9 +17,9 @@ import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
 
 @RunWith(AndroidJUnit4::class)
-class RoomPizzaRepoTest {
+class RoomPizzaStoreTest {
     private lateinit var database: NennoDataBase
-    private lateinit var roomRepo: RoomPizzaRepo
+    private lateinit var roomStore: RoomPizzaStore
 
     @Before
     fun setUp() {
@@ -27,7 +27,7 @@ class RoomPizzaRepoTest {
                 NennoDataBase::class.java)
                 .allowMainThreadQueries()
                 .build()
-        roomRepo = RoomPizzaRepo { Single.just(database) }
+        roomStore = RoomPizzaStore { Single.just(database) }
     }
 
     @After
@@ -53,9 +53,9 @@ class RoomPizzaRepoTest {
         )
 
         val pizzas = listOf(chiliPizza, hawaiiPizza)
-        roomRepo.insertAll(pizzas).blockingAwait(2, TimeUnit.SECONDS)
+        roomStore.insertAll(pizzas).blockingAwait(2, TimeUnit.SECONDS)
 
-        val pizzasFromDB = roomRepo.getAll().blockingGet()
+        val pizzasFromDB = roomStore.getAll().blockingGet()
         when (pizzasFromDB) {
             is LookupOperation.Success -> {
                 pizzasFromDB.data shouldContainAll pizzas

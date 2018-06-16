@@ -11,9 +11,9 @@ import org.junit.Test
 import retrofit2.Response
 import retrofit2.adapter.rxjava2.Result
 
-class NetPizzaRepoTest {
+class NetPizzaStoreRepoTest {
     private val mockApiService = mockk<ApiService>()
-    private val repoUnderTest = NetPizzaRepo(apiService = mockApiService)
+    private val repoUnderTest = NetPizzaStore(apiService = mockApiService)
 
     private val error = HttpServerError("Fail!")
     private val pizza = PizzaData(name = "Chili Pizza", ingredients = listOf("1", "2"))

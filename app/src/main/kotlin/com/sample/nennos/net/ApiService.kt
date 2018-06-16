@@ -11,7 +11,7 @@ import retrofit2.http.GET
 
 interface ApiService {
     companion object Factory {
-        fun create(decorateOkHttp: (OkHttpClient) -> OkHttpClient): ApiService {
+        fun create(decorateOkHttp: (OkHttpClient) -> OkHttpClient = { OkHttpClient() }): ApiService {
             val defaultMoshi = Moshi.Builder().build()
             val moshi = Moshi.Builder()
                     .add(DrinkData::class.java, DrinkDataJsonAdapter(defaultMoshi))

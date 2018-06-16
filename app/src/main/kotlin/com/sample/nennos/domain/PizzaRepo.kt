@@ -1,12 +1,27 @@
 package com.sample.nennos.domain
 
-import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.disposables.Disposables
 
 interface PizzaRepo {
-    fun insertAll(pizzas: List<Pizza>): Completable
-
     fun getAll(): Single<LookupOperation<List<Pizza>>>
+}
+
+class PizzaRepoImpl(private val diskStore: PizzaStore, private val netStore: PizzaStore) : PizzaRepo {
+    private var disposable = Disposables.empty()
+
+    override fun getAll(): Single<LookupOperation<List<Pizza>>> {
+        val fromDisk = diskStore.getAll()
+        val fromNet = netStore.getAll()
+                .doOnSuccess {
+                    if (it is LookupOperation.Success) {
+                        disposable = diskStore.insertAll(it.data).subscribe()
+                    }
+                }
+                .doOnDispose { disposable.dispose() }
+
+        return fromDisk.concatWith(fromNet).firstOrError()
+    }
 }
 
 sealed class LookupOperation<out R> {

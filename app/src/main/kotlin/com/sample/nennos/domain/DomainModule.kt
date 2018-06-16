@@ -1,12 +1,15 @@
 package com.sample.nennos.domain
 
-import com.sample.nennos.persistence.NennoDataBase
-import com.sample.nennos.persistence.RoomPizzaRepo
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
-import org.kodein.di.generic.provider
+import org.kodein.di.generic.singleton
 
 val domainModule = Kodein.Module {
-    bind<PizzaRepo>() with provider { RoomPizzaRepo(instance<NennoDataBase.Factory>()) }
+    bind<PizzaRepo>() with singleton {
+        PizzaRepoImpl(
+                diskStore = instance(PizzaStore.Type.DISK),
+                netStore = instance(PizzaStore.Type.NETWORK)
+        )
+    }
 }

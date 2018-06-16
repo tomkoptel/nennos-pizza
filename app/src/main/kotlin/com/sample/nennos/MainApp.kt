@@ -2,6 +2,7 @@ package com.sample.nennos
 
 import android.app.Application
 import com.sample.nennos.domain.domainModule
+import com.sample.nennos.net.netModule
 import com.sample.nennos.persistence.dbModule
 import com.sample.nennos.rx.AppSchedulerProvider
 import com.sample.nennos.rx.AppSchedulers
@@ -21,6 +22,7 @@ class MainApp : Application(), KodeinAware {
         import(androidModule(this@MainApp))
         import(dbModule)
         import(domainModule)
+        import(netModule)
         bind<AppSchedulers>() with provider { AppSchedulerProvider }
         bind<Picasso>() with singleton { Picasso.Builder(instance()).build() }
     }

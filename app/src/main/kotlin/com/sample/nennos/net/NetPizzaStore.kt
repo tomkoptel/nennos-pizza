@@ -2,16 +2,12 @@ package com.sample.nennos.net
 
 import com.sample.nennos.domain.LookupOperation
 import com.sample.nennos.domain.Pizza
-import com.sample.nennos.domain.PizzaRepo
+import com.sample.nennos.domain.PizzaStore
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.Singles
-import org.kodein.di.Kodein
-import org.kodein.di.generic.instance
 
-class NetPizzaRepo(private val apiService: ApiService) : PizzaRepo {
-    constructor(kodein: Kodein) : this(kodein.instance<ApiService>() as ApiService)
-
+class NetPizzaStore(private val apiService: ApiService) : PizzaStore {
     override fun getAll(): Single<LookupOperation<List<Pizza>>> {
         return Singles.zip(apiService.getPizzas(), apiService.getIngredients()) { pizzaResponse, ingredientsResponse ->
             val pizzaLookup = pizzaResponse.toLookup()
