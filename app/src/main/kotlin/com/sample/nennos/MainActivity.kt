@@ -32,6 +32,9 @@ class MainActivity : KodeinActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        progressBar.visibility = View.VISIBLE
+        progressBar.show()
+
         recyclerView.apply {
             adapter = pizzaAdapter
             layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
@@ -45,9 +48,13 @@ class MainActivity : KodeinActivity() {
                     recyclerView.visibility = View.VISIBLE
                     errorText.visibility = View.GONE
 
+                    progressBar.hide()
+                    progressBar.visibility = View.GONE
+
                     pizzaAdapter.submitList(it.data)
                 }
                 is LookupOperation.Error -> {
+                    progressBar.visibility = View.GONE
                     recyclerView.visibility = View.GONE
                     errorText.visibility = View.VISIBLE
 
