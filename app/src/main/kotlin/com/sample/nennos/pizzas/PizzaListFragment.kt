@@ -30,8 +30,7 @@ class PizzaListFragment : KodeinFragment() {
     private val model by instance<PizzaListViewModel>()
     private val pizzaAdapter by instance<PizzaAdapter>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.pizza_list_fragment, container, false)
     }
 
