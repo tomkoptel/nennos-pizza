@@ -3,8 +3,6 @@ package com.sample.nennos.detail
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -14,6 +12,8 @@ import com.sample.nennos.ktx.arch.toLiveData
 import com.sample.nennos.ktx.formattedPrice
 import io.reactivex.processors.FlowableProcessor
 import io.reactivex.processors.PublishProcessor
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.ingredient_item_row.*
 import java.util.concurrent.TimeUnit
 
 class PizzaIngredientsAdapter(
@@ -35,12 +35,10 @@ class PizzaIngredientsAdapter(
     }
 }
 
-class IngredientViewHolder(itemView: View, private val publisher: FlowableProcessor<IngredientChoice>) : RecyclerView.ViewHolder(itemView) {
-    private val ingredientName by lazy(LazyThreadSafetyMode.NONE) { itemView.findViewById<TextView>(R.id.ingredientName) }
-    private val ingredientPrice by lazy(LazyThreadSafetyMode.NONE) { itemView.findViewById<TextView>(R.id.ingredientPrice) }
-    private val checkBox by lazy(LazyThreadSafetyMode.NONE) { itemView.findViewById<CheckBox>(R.id.checkBox) }
-
-
+class IngredientViewHolder(
+        override val containerView: View,
+        private val publisher: FlowableProcessor<IngredientChoice>
+) : RecyclerView.ViewHolder(containerView), LayoutContainer {
     fun bind(choice: IngredientChoice) {
         val (ingredient, checked) = choice
 

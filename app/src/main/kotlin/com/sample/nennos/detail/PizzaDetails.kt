@@ -2,6 +2,7 @@ package com.sample.nennos.detail
 
 import android.os.Parcelable
 import androidx.annotation.Keep
+import com.sample.nennos.domain.Item
 import kotlinx.android.parcel.Parcelize
 
 @Keep
@@ -12,3 +13,5 @@ data class PizzaDetails(
         val price: Double,
         val imageUrl: String?
 ) : Parcelable
+
+fun PizzaDetails.toCartItem() = Item(price = price, name = name)

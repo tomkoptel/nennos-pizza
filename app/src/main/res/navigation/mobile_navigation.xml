@@ -13,13 +13,20 @@
         <action
             android:id="@+id/show_pizza_detail"
             app:destination="@id/pizza_detail" />
+        <action
+            android:id="@+id/show_cart_page"
+            app:destination="@id/cartFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/pizza_detail"
         android:name="com.sample.nennos.detail.PizzaDetailFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/pizza_detail_fragment">
-    </fragment>
+        tools:layout="@layout/pizza_detail_fragment" />
+
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.sample.nennos.cart.CartFragment"
+        android:label="@string/cart" />
 
 </navigation>

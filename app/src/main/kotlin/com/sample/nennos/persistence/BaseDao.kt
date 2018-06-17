@@ -6,4 +6,7 @@ import androidx.room.OnConflictStrategy
 interface BaseDao<T> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(entities: Collection<T>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(entity: T)
 }

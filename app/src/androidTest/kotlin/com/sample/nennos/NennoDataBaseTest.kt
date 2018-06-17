@@ -6,10 +6,12 @@ import androidx.test.runner.AndroidJUnit4
 import com.sample.nennos.persistence.*
 import org.amshove.kluent.shouldBeEmpty
 import org.amshove.kluent.shouldContainAll
+import org.amshove.kluent.shouldEqual
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.threeten.bp.OffsetDateTime
 
 @RunWith(AndroidJUnit4::class)
 class NennoDataBaseTest {
@@ -18,6 +20,7 @@ class NennoDataBaseTest {
     private val ingredientDao by lazy { database.ingredientDao() }
     private val drinkDao by lazy { database.drinkDao() }
     private val pizzaIngredientJoinDao by lazy { database.pizzaIngredientJoinDao() }
+    private val cartDao by lazy { database.cartDao() }
 
     @Before
     fun setUp() {
@@ -73,5 +76,25 @@ class NennoDataBaseTest {
 
         val twoDrinks = drinkDao.getDrinks()
         twoDrinks shouldContainAll listOf(drink1, drink2)
+    }
+
+    @Test
+    fun test_insert_cart_and_items() {
+        val now = OffsetDateTime.now()
+        val cartEntity = CartEntity("1", now, null)
+        val item1 = ItemEntity("1", "Item 1", cartEntity.uid, 10.0, now)
+        val item2 = ItemEntity("2", "Item 2", cartEntity.uid, 50.0, now)
+
+        val cart = CartAndItems().apply {
+            cart = cartEntity
+            items = listOf(item1, item2)
+        }
+        cartDao.insertCart(cart)
+
+        val selectedCarts = cartDao.getCarts()
+        val selectedCart = selectedCarts.first()
+
+        selectedCart.cart shouldEqual cartEntity
+        selectedCart.items shouldContainAll listOf(item1, item2)
     }
 }

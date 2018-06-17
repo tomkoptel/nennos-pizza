@@ -17,3 +17,5 @@ data class Pizza(
         ingredients.map(Ingredient::name).joinToString()
     }
 }
+
+fun Pizza.toCartItem() = Item(price = price, name = name)

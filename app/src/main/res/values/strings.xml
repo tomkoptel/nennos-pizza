@@ -4,4 +4,12 @@
     <string name="add_to_cart"><![CDATA[
         <b>Add to cart <i>(%s)</i></b>
     ]]></string>
+    <string name="checkout"><![CDATA[
+        <b>Checkout <i>(%s)</i></b>
+    ]]></string>
+    <string name="pick_drinks">Pick Drinks</string>
+    <string name="show_cart_page">Show Cart Page</string>
+    <string name="cart">Cart</string>
+    <string name="delete_action">Delete Action</string>
+    <string name="the_cart_is_empty">The cart is empty</string>
 </resources>

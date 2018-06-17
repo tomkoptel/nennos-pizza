@@ -27,6 +27,7 @@ object Deps {
 
     // Kotlin
     const val kotlinStdlibJdk7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlinVersion}"
+    const val kotlinAndroidKtx = "androidx.core:core-ktx:1.0.0-alpha1"
 
     // Network
     private const val retrofitVersion = "2.4.0"
@@ -57,6 +58,7 @@ object Deps {
     const val rxAndroid = "io.reactivex.rxjava2:rxandroid:2.0.2"
     const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:2.2.0"
     const val picasso = "com.squareup.picasso:picasso:2.71828"
+    const val java8time = "org.threeten:threetenbp:1.3.6"
 
     // Logging
     const val timber = "com.jakewharton.timber:timber:4.7.0"

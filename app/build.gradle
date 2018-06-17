@@ -47,6 +47,7 @@ android {
 
 dependencies {
     implementation(Deps.kotlinStdlibJdk7)
+    implementation(Deps.kotlinAndroidKtx)
 
     implementation(Deps.appCompat)
     implementation(Deps.material)
@@ -79,7 +80,9 @@ dependencies {
     implementation(Deps.rxJava)
     implementation(Deps.rxAndroid)
     implementation(Deps.rxKotlin)
+
     implementation(Deps.picasso)
+    implementation(Deps.java8time)
 
     implementation(Deps.navFragment)
     implementation(Deps.navUi)

@@ -6,20 +6,25 @@ import androidx.annotation.WorkerThread
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import io.reactivex.Single
 
 @Database(entities = arrayOf(
         PizzaEntity::class,
         IngredientEntity::class,
         DrinkEntity::class,
-        PizzaIngredientEntity::class
+        PizzaIngredientEntity::class,
+        CartEntity::class,
+        ItemEntity::class
 ), version = 1)
+@TypeConverters(value = arrayOf(TimeConverter::class))
 abstract class NennoDataBase : RoomDatabase() {
 
     abstract fun pizzaDao(): PizzaDao
     abstract fun ingredientDao(): IngredientDao
     abstract fun pizzaIngredientJoinDao(): PizzaIngredientJoinDao
     abstract fun drinkDao(): DrinkDao
+    abstract fun cartDao(): CartDao
 
     class Factory(private val app: Application) {
         @get:WorkerThread

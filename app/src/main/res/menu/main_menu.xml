@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/show_cart_page"
+        android:title="@string/show_cart_page"
+        app:actionLayout="@layout/cart_view_menu"
+        app:showAsAction="always" />
+</menu>

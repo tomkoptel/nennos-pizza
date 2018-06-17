@@ -3,7 +3,9 @@ package com.sample.nennos.ktx
 import com.sample.nennos.detail.IngredientChoice
 import com.sample.nennos.detail.PizzaChoice
 import com.sample.nennos.detail.PizzaDetails
+import com.sample.nennos.domain.Cart
 import com.sample.nennos.domain.Ingredient
+import com.sample.nennos.domain.Item
 import com.sample.nennos.domain.Pizza
 import java.text.NumberFormat
 import java.util.*
@@ -26,6 +28,18 @@ fun PizzaChoice.formattedPrice(): String {
     return formatPrice(price)
 }
 
+fun PizzaDetails.formattedPrice(): String {
+    return formatPrice(price)
+}
+
+fun Cart.formattedPrice(): String {
+    return formatPrice(price)
+}
+
+fun Item.formattedPrice(): String {
+    return formatPrice(price)
+}
+
 fun Pizza.toChoice(): PizzaChoice {
     val ingredients = ingredients.map { IngredientChoice(it, true) }
     return PizzaChoice(this, ingredients).apply { price }
@@ -33,8 +47,4 @@ fun Pizza.toChoice(): PizzaChoice {
 
 fun Pizza.toParcelable(): PizzaDetails {
     return PizzaDetails(id = id, name = name, price = price, imageUrl = imageUrl)
-}
-
-fun PizzaDetails.formattedPrice(): String {
-    return formatPrice(price)
 }

@@ -5,17 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.core.text.HtmlCompat
-import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
+import androidx.core.widget.toast
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sample.nennos.R
+import com.sample.nennos.domain.Item
 import com.sample.nennos.domain.LookupOperation
 import com.sample.nennos.kodein.KodeinFragment
 import com.sample.nennos.ktx.arch.observeNonNull
 import com.sample.nennos.ktx.formattedPrice
 import com.sample.nennos.ktx.load
 import com.sample.nennos.ktx.provideModel
+import com.sample.nennos.widget.CartViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.pizza_detail_fragment.*
 import org.kodein.di.Kodein
@@ -31,12 +32,19 @@ class PizzaDetailFragment : KodeinFragment() {
                 bind<PizzaDetailViewModel>() with provider {
                     instance<FragmentActivity>().provideModel { PizzaDetailViewModel(instance(), instance()) }
                 }
+                bind<CartViewModel>() with provider {
+                    instance<FragmentActivity>().provideModel { CartViewModel(instance(), instance()) }
+                }
             }
 
-    private val model by instance<PizzaDetailViewModel>()
+    private val detailViewModel by instance<PizzaDetailViewModel>()
+    private val cartViewModel by instance<CartViewModel>()
+
     private val picasso by instance<Picasso>()
     private val ingredientsAdapter by instance<PizzaIngredientsAdapter>()
     private var toolbar: Toolbar? = null
+
+    private lateinit var cartItem: Item
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.pizza_detail_fragment, container, false)
@@ -49,8 +57,10 @@ class PizzaDetailFragment : KodeinFragment() {
         val args = checkNotNull(arguments) { "Developer error! You should start activity with onPizzaChange id." }
         val details = args.getParcelable("details") as PizzaDetails
 
+        cartItem = details.toCartItem()
+
         pizzaImage.load(picasso, details.imageUrl)
-        updateBuyButton(details.formattedPrice())
+        addToCard.setPrice(details.formattedPrice())
         details.name.let {
             toolbar?.title = it
             pizzaImage.contentDescription = it
@@ -66,31 +76,35 @@ class PizzaDetailFragment : KodeinFragment() {
 
         if (savedInstanceState == null) {
             progressBar.show()
-            model.loadPizza(details.id)
+            detailViewModel.loadPizza(details.id)
         }
 
-        model.onPizzaChange.observeNonNull(viewLifecycleOwner) {
+        detailViewModel.onPizzaChange.observeNonNull(viewLifecycleOwner) {
             when (it) {
                 is LookupOperation.Success -> {
                     val pizzaChoice = it.data
+                    cartItem = pizzaChoice.toCartItem()
+
                     progressBar.hide()
 
                     ingredientsAdapter.submitList(pizzaChoice.ingredients)
-                    updateBuyButton(pizzaChoice.formattedPrice())
+                    addToCard.setPrice(pizzaChoice.formattedPrice())
                 }
                 is LookupOperation.Error -> {
                     Timber.e(it.error)
                 }
             }
         }
-        ingredientsAdapter.onIngredientChoice.observeNonNull(viewLifecycleOwner, model::recalculatePrice)
-    }
+        ingredientsAdapter.onIngredientChoice.observeNonNull(viewLifecycleOwner) {
+            detailViewModel.recalculatePrice(it)
+        }
 
-    private fun updateBuyButton(price: String) {
-        buyText.text = HtmlCompat.fromHtml(
-                getString(R.string.add_to_cart, price),
-                FROM_HTML_MODE_COMPACT
-        )
+        cartViewModel.onAddToCart.observeNonNull(viewLifecycleOwner) { item ->
+            pizzaImage.context.toast("Saved ${item.name}")
+        }
+        addToCard.setOnClickListener {
+            cartViewModel.addToCart(cartItem)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

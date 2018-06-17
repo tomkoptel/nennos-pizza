@@ -1,5 +1,6 @@
 package com.sample.nennos.rx
 
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Scheduler
 import io.reactivex.Single
@@ -16,7 +17,15 @@ fun <T> Flowable<T>.fromComputationToUI(provider: AppSchedulers): Flowable<T> = 
     it.subscribeOn(provider.computation()).observeOn(provider.ui())
 }
 
+fun <T> Flowable<T>.fromIOToUI(provider: AppSchedulers): Flowable<T> = compose {
+    it.subscribeOn(provider.io()).observeOn(provider.ui())
+}
+
 fun <T> Single<T>.fromIOToUI(provider: AppSchedulers) : Single<T> = compose {
+    it.subscribeOn(provider.io()).observeOn(provider.ui())
+}
+
+fun Completable.fromIOToUI(provider: AppSchedulers): Completable = compose {
     it.subscribeOn(provider.io()).observeOn(provider.ui())
 }
 
