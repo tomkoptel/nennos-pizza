@@ -12,6 +12,7 @@ data class Pizza(
     val price by lazy(LazyThreadSafetyMode.NONE) {
         basePrice + ingredients.map(Ingredient::price).reduce { left, right -> left + right }
     }
+
     val ingredientNames by lazy(LazyThreadSafetyMode.NONE) {
         ingredients.map(Ingredient::name).joinToString()
     }

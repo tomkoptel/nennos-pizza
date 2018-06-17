@@ -8,6 +8,8 @@ interface PizzaStore {
 
     fun getAll(): Single<LookupOperation<List<Pizza>>>
 
+    fun findById(pizzaId: String): Single<LookupOperation<Pizza>>
+
     enum class Type {
         DISK, NETWORK;
     }

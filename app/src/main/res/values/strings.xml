@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Nenno\'s Pizza</string>
     <string name="ingredients">Ingredients</string>
+    <string name="add_to_cart"><![CDATA[
+        <b>Add to cart <i>(%s)</i></b>
+    ]]></string>
 </resources>

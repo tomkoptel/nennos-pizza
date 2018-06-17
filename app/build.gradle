@@ -1,14 +1,9 @@
-plugins {
-    id("com.android.application")
-    kotlin("android")
-    kotlin("kapt")
-    id("org.jetbrains.kotlin.android.extensions")
-    id("androidx.navigation.safeargs")
-}
-
-apply {
-    from(rootProject.file("gradle/config-kotlin-sources.gradle"))
-}
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-kapt"
+apply plugin: "kotlin-android-extensions"
+apply plugin: "androidx.navigation.safeargs"
+apply from: rootProject.file("gradle/config-kotlin-sources.gradle")
 
 android {
     compileSdkVersion(Versions.compileSdkVersion)
@@ -17,40 +12,37 @@ android {
         minSdkVersion(Versions.minSdkVersion)
         targetSdkVersion(Versions.targetSdkVersion)
 
-        applicationId = "com.sample.nennos"
-        versionCode  = Versions.versionCode
-        versionName = Versions.versionName
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        applicationId("com.sample.nennos")
+        versionCode(Versions.versionCode)
+        versionName(Versions.versionName)
+        testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
     }
 
     buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
+        release {
+            minifyEnabled false
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
 
     sourceSets {
-       getByName("main") {
-           (java.srcDirs + "src/main/kotlin").let { java.setSrcDirs(it) }
-       }
-       getByName("test") {
-           (java.srcDirs + "src/test/kotlin").let { java.setSrcDirs(it) }
-       }
-       getByName("androidTest") {
-           (java.srcDirs + "src/androidTest/kotlin").let { java.setSrcDirs(it) }
-           // used by Room, to test migrations
-           (assets.srcDirs + files("$projectDir/schemas")).let { assets.setSrcDirs(it) }
-       }
+        main.java.srcDirs += "src/main/kotlin"
+        test.java.srcDirs += "src/test/kotlin"
+        androidTest.java.srcDirs += "src/androidTest/kotlin"
+        androidTest.assets.srcDirs += files("$projectDir/schemas").toString()
+
     }
 
-    // Allow Room database to save the schem files
+    // Allow Room database to save the schema files
     kapt {
         arguments {
-            arg("room.schemaLocation", "$projectDir/schemas")
+            arg("room.schemaLocation", "$projectDir/schemas".toString())
         }
     }
 
+    androidExtensions {
+        experimental = true
+    }
 }
 
 dependencies {

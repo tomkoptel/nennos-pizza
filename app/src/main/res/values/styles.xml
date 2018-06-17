@@ -22,8 +22,12 @@
         <item name="android:background">@color/colorBtnBuy</item>
     </style>
 
-    <style name="CustomAccentOverlay" parent="ThemeOverlay.AppCompat">
+    <style name="BuyAccentOverlay" parent="ThemeOverlay.AppCompat">
         <item name="colorSecondary">@color/colorBtnBuy</item>
+    </style>
+
+    <style name="CheckboxOverlay" parent="ThemeOverlay.AppCompat">
+        <item name="android:textColorSecondary">@color/colorPrimaryDark</item>
     </style>
 
 </resources>

@@ -4,7 +4,6 @@ import com.sample.nennos.domain.Ingredient
 import com.sample.nennos.domain.LookupOperation
 import com.sample.nennos.domain.Pizza
 import com.sample.nennos.domain.PizzaStore
-import io.reactivex.Completable
 import io.reactivex.Single
 
 class RoomPizzaStore(private val dbProvider: () -> Single<NennoDataBase>) : PizzaStore {
@@ -12,41 +11,46 @@ class RoomPizzaStore(private val dbProvider: () -> Single<NennoDataBase>) : Pizz
         factory.getDatabase()
     })
 
-    override fun insertAll(pizzas: List<Pizza>): Completable {
-        return dbProvider().map {
-            val pizzaWithIngredients = pizzas.map {
-                val pizzaEntity = it.toDataObject()
-                val ingredientEntities = it.ingredients.map(Ingredient::toDataObject)
+    override fun findById(pizzaId: String) = dbProvider().map {
+        val pizzaDao = it.pizzaDao()
 
-                pizzaEntity to ingredientEntities
-            }.toMap()
+        val pizzaEntity = pizzaDao.findPizzaById(pizzaId)
+        val pizza = it.mapPizzaEntity(pizzaEntity)
 
-            val pizzaEntities = pizzaWithIngredients.keys
-            it.pizzaDao().insertAll(pizzaEntities)
+        LookupOperation.Success(pizza) as LookupOperation<Pizza>
+    }.onErrorReturn { LookupOperation.Error(it) }
 
-            val ingredientEntities = pizzaWithIngredients.values.flatten().toHashSet()
-            it.ingredientDao().insertAll(ingredientEntities)
 
-            val joinEntities = PizzaIngredientEntity.fromMapping(pizzaWithIngredients)
-            it.pizzaIngredientJoinDao().insertAll(joinEntities)
-        }.ignoreElement()
-    }
+    override fun insertAll(pizzas: List<Pizza>) = dbProvider().map {
+        val pizzaWithIngredients = pizzas.map {
+            val pizzaEntity = it.toDataObject()
+            val ingredientEntities = it.ingredients.map(Ingredient::toDataObject)
+
+            pizzaEntity to ingredientEntities
+        }.toMap()
+
+        val pizzaEntities = pizzaWithIngredients.keys
+        it.pizzaDao().insertAll(pizzaEntities)
+
+        val ingredientEntities = pizzaWithIngredients.values.flatten().toHashSet()
+        it.ingredientDao().insertAll(ingredientEntities)
+
+        val joinEntities = PizzaIngredientEntity.fromMapping(pizzaWithIngredients)
+        it.pizzaIngredientJoinDao().insertAll(joinEntities)
+    }.ignoreElement()
 
     override fun getAll(): Single<LookupOperation<List<Pizza>>> =
-            dbProvider().map {
-                val pizzaDao = it.pizzaDao()
-                val pizzaIngredientJoinDao = it.pizzaIngredientJoinDao()
+            dbProvider().map { db ->
+                val pizzaDao = db.pizzaDao()
+                val pizzas = pizzaDao.getPizzas().map { db.mapPizzaEntity(it) }
 
-                val pizzas = pizzaDao.getPizzas()
-                        .map { pizzaEntity ->
-                            val ingredients = pizzaIngredientJoinDao.getIngredientsForPizza(pizzaEntity.uid)
-                                    .map(IngredientEntity::toDomainObject)
-                            Pizza(id = pizzaEntity.uid,
-                                    name = pizzaEntity.name,
-                                    imageUrl = pizzaEntity.imageUrl,
-                                    ingredients = ingredients
-                            )
-                        }
                 LookupOperation.Success(pizzas) as LookupOperation<List<Pizza>>
             }.onErrorReturn { LookupOperation.Error(it) }
+
+    private fun NennoDataBase.mapPizzaEntity(pizzaEntity: PizzaEntity): Pizza {
+        val ingredients = pizzaIngredientJoinDao()
+                .getIngredientsForPizza(pizzaEntity.uid)
+                .map(IngredientEntity::toDomainObject)
+        return pizzaEntity.toDomainObject(ingredients)
+    }
 }

@@ -4,13 +4,16 @@ import io.reactivex.Flowable
 import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import org.reactivestreams.Publisher
 import io.reactivex.schedulers.Schedulers as PlatformSchedulers
 
 interface AppSchedulers {
     fun io() : Scheduler
     fun ui() : Scheduler
     fun computation() : Scheduler
+}
+
+fun <T> Flowable<T>.fromComputationToUI(provider: AppSchedulers): Flowable<T> = compose {
+    it.subscribeOn(provider.computation()).observeOn(provider.ui())
 }
 
 fun <T> Single<T>.fromIOToUI(provider: AppSchedulers) : Single<T> = compose {

@@ -8,6 +8,10 @@ import io.reactivex.Single
 import io.reactivex.rxkotlin.Singles
 
 class NetPizzaStore(private val apiService: ApiService) : PizzaStore {
+    override fun findById(pizzaId: String): Single<LookupOperation<Pizza>> {
+        return Single.never()
+    }
+
     override fun getAll(): Single<LookupOperation<List<Pizza>>> {
         return Singles.zip(apiService.getPizzas(), apiService.getIngredients()) { pizzaResponse, ingredientsResponse ->
             val pizzaLookup = pizzaResponse.toLookup()

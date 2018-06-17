@@ -7,4 +7,7 @@ import androidx.room.Query
 interface PizzaDao : BaseDao<PizzaEntity> {
     @Query("SELECT * FROM Pizza")
     fun getPizzas(): List<PizzaEntity>
+
+    @Query("SELECT * FROM Pizza WHERE Pizza.uid=:pizzaId")
+    fun findPizzaById(pizzaId: String): PizzaEntity
 }
