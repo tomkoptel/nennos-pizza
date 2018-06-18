@@ -3,10 +3,7 @@ package com.sample.nennos.ktx
 import com.sample.nennos.detail.IngredientChoice
 import com.sample.nennos.detail.PizzaChoice
 import com.sample.nennos.detail.PizzaDetails
-import com.sample.nennos.domain.Cart
-import com.sample.nennos.domain.Ingredient
-import com.sample.nennos.domain.Item
-import com.sample.nennos.domain.Pizza
+import com.sample.nennos.domain.*
 import java.text.NumberFormat
 import java.util.*
 
@@ -37,6 +34,10 @@ fun Cart.formattedPrice(): String {
 }
 
 fun Item.formattedPrice(): String {
+    return formatPrice(price)
+}
+
+fun Drink.formattedPrice(): String {
     return formatPrice(price)
 }
 

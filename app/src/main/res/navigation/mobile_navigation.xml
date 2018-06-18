@@ -27,6 +27,16 @@
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.sample.nennos.cart.CartFragment"
-        android:label="@string/cart" />
+        android:label="@string/cart">
+        <action
+            android:id="@+id/pick_drinks"
+            app:destination="@id/drinksFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/drinksFragment"
+        android:name="com.sample.nennos.drink.DrinksListFragment"
+        android:label="@string/drinks" />
+
 
 </navigation>
