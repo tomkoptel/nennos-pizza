@@ -2,7 +2,6 @@ package com.sample.nennos.cart
 
 import android.os.Bundle
 import android.view.*
-import androidx.core.widget.toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sample.nennos.R
 import com.sample.nennos.kodein.KodeinFragment
@@ -57,9 +56,6 @@ class CartFragment : KodeinFragment() {
 
             payButton.setPrice(it.formattedPrice())
             cartAdapter.submitList(items)
-        }
-        cartViewModel.onRemovedFromCart.observeNonNull(viewLifecycleOwner) { item ->
-            recyclerView.context.toast("Removed ${item.name}")
         }
         cartAdapter.onRemoveItem.observeNonNull(viewLifecycleOwner) {
             cartViewModel.removeFromCart(it)

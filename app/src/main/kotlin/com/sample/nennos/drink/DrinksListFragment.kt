@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.sample.nennos.R
 import com.sample.nennos.domain.Drink
 import com.sample.nennos.domain.LookupOperation
@@ -13,6 +13,7 @@ import com.sample.nennos.domain.toCartItem
 import com.sample.nennos.kodein.KodeinFragment
 import com.sample.nennos.ktx.arch.observeNonNull
 import com.sample.nennos.widget.CartViewModel
+import com.sample.nennos.widget.CustomSnackbar
 import kotlinx.android.synthetic.main.pizza_detail_fragment.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -55,7 +56,7 @@ class DrinksListFragment : KodeinFragment() {
             }
         }
         cartViewModel.onAddToCart.observeNonNull(this) {
-            recyclerView.context.toast("Added drink ${it.name} to cart!")
+            CustomSnackbar.make(recyclerView, R.string.added_to_cart, Snackbar.LENGTH_SHORT).show()
         }
         drinksAdapter.onPrimaryAction.observeNonNull(this) {
             cartViewModel.addToCart(it.toCartItem())

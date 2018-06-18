@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.core.widget.toast
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.sample.nennos.R
 import com.sample.nennos.domain.Item
 import com.sample.nennos.domain.LookupOperation
@@ -18,6 +18,7 @@ import com.sample.nennos.ktx.formattedPrice
 import com.sample.nennos.ktx.load
 import com.sample.nennos.ktx.provideModel
 import com.sample.nennos.widget.CartViewModel
+import com.sample.nennos.widget.CustomSnackbar
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.pizza_detail_fragment.*
 import org.kodein.di.Kodein
@@ -100,8 +101,8 @@ class PizzaDetailFragment : KodeinFragment() {
             detailViewModel.recalculatePrice(it)
         }
 
-        cartViewModel.onAddToCart.observeNonNull(viewLifecycleOwner) { item ->
-            pizzaImage.context.toast("Saved ${item.name}")
+        cartViewModel.onAddToCart.observeNonNull(viewLifecycleOwner) {
+            CustomSnackbar.make(recyclerView, R.string.added_to_cart, Snackbar.LENGTH_SHORT).show()
         }
         addToCard.setOnClickListener {
             cartViewModel.addToCart(cartItem)
