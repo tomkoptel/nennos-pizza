@@ -10,7 +10,7 @@ data class IngredientEntity @JvmOverloads constructor(
         @PrimaryKey var uid: String = UUID.randomUUID().toString(),
         var name: String = "",
         var price: Double = 0.0,
-        var remoteId: String
+        var remoteId: String = ""
 )
 
 fun IngredientEntity.toDomainObject() = Ingredient(id = uid, name = name, price = price, remoteId = remoteId)

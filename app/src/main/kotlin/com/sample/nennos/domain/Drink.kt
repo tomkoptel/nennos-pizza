@@ -8,3 +8,5 @@ data class Drink(
         val price: Double = 0.0,
         val remoteId: String
 )
+
+fun Drink.toCartItem() = Item(price = price, name = name)

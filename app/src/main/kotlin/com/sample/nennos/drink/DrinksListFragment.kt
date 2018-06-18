@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sample.nennos.R
+import com.sample.nennos.domain.Drink
 import com.sample.nennos.domain.LookupOperation
+import com.sample.nennos.domain.toCartItem
 import com.sample.nennos.kodein.KodeinFragment
 import com.sample.nennos.ktx.arch.observeNonNull
+import com.sample.nennos.widget.CartViewModel
 import kotlinx.android.synthetic.main.pizza_detail_fragment.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -19,11 +23,13 @@ import timber.log.Timber
 class DrinksListFragment : KodeinFragment() {
     override fun activityModule() = Kodein.Module {
         bind<DrinksAdapter>() with provider { DrinksAdapter(instance()) }
-        bind<DrinkViewModel>() with provider { DrinkViewModel() }
+        bind<DrinkViewModel>() with provider { DrinkViewModel(instance(Drink::class), instance()) }
+        bind<CartViewModel>() with provider { CartViewModel(instance(), instance()) }
     }
 
     private val drinksAdapter by instance<DrinksAdapter>()
     private val drinkViewModel by instance<DrinkViewModel>()
+    private val cartViewModel by instance<CartViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.drinks_list_fragment, container, false)
@@ -48,11 +54,11 @@ class DrinksListFragment : KodeinFragment() {
                 is LookupOperation.Error -> Timber.e(it.error)
             }
         }
-        drinkViewModel.onDrinkAdded.observeNonNull(this) {
-
+        cartViewModel.onAddToCart.observeNonNull(this) {
+            recyclerView.context.toast("Added drink ${it.name} to cart!")
         }
         drinksAdapter.onPrimaryAction.observeNonNull(this) {
-            drinkViewModel.addDrink(it)
+            cartViewModel.addToCart(it.toCartItem())
         }
     }
 }
