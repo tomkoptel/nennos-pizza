@@ -11,18 +11,18 @@ class RoomPizzaStore(private val dbProvider: () -> Single<NennoDataBase>) : Stor
         factory.getDatabase()
     })
 
-    override fun findById(pizzaId: String) = dbProvider().map {
+    override fun findById(entityId: String) = dbProvider().map {
         val pizzaDao = it.pizzaDao()
 
-        val pizzaEntity = pizzaDao.findPizzaById(pizzaId)
+        val pizzaEntity = pizzaDao.findPizzaById(entityId)
         val pizza = it.mapPizzaEntity(pizzaEntity)
 
         LookupOperation.Success(pizza) as LookupOperation<Pizza>
     }.onErrorReturn { LookupOperation.Error(it) }
 
 
-    override fun insertAll(pizzas: List<Pizza>) = dbProvider().map {
-        val pizzaWithIngredients = pizzas.map {
+    override fun insertAll(entities: List<Pizza>) = dbProvider().map {
+        val pizzaWithIngredients = entities.map {
             val pizzaEntity = it.toDataObject()
             val ingredientEntities = it.ingredients.map(Ingredient::toDataObject)
 

@@ -12,4 +12,10 @@ val domainModule = Kodein.Module {
                 netStore = instance(Store.Type.NETWORK)
         )
     }
+    bind<Repo<Drink>>(Drink::class) with singleton {
+        DiskNetworkStore<Drink>(
+                diskStore = instance(Store.Type.DISK),
+                netStore = instance(Store.Type.NETWORK)
+        )
+    }
 }

@@ -35,7 +35,7 @@ interface ApiService {
     fun getIngredients(): Single<Result<List<IngredientData>>>
 
     @GET("/bins/150da7")
-    fun getDrinks(): Single<Result<List<IngredientData>>>
+    fun getDrinks(): Single<Result<List<DrinkData>>>
 
     @GET("/bins/dokm7")
     fun getPizzas(): Single<Result<PizzasData>>
