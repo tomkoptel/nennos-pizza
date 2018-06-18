@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sample.nennos.R
 import com.sample.nennos.domain.LookupOperation
+import com.sample.nennos.domain.Pizza
 import com.sample.nennos.domain.toCartItem
 import com.sample.nennos.kodein.KodeinFragment
 import com.sample.nennos.ktx.arch.observeNonNull
@@ -26,7 +27,7 @@ class PizzaListFragment : KodeinFragment() {
             Kodein.Module {
                 bind<PizzaAdapter>() with provider { PizzaAdapter(instance(), instance()) }
                 bind<PizzaListViewModel>() with provider {
-                    instance<FragmentActivity>().provideModel { PizzaListViewModel(instance(), instance()) }
+                    instance<FragmentActivity>().provideModel { PizzaListViewModel(instance(Pizza::class), instance()) }
                 }
                 bind<CartViewModel>() with provider {
                     instance<FragmentActivity>().provideModel { CartViewModel(instance(), instance()) }

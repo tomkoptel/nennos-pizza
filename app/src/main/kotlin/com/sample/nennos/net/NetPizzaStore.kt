@@ -2,13 +2,13 @@ package com.sample.nennos.net
 
 import com.sample.nennos.domain.LookupOperation
 import com.sample.nennos.domain.Pizza
-import com.sample.nennos.domain.PizzaStore
+import com.sample.nennos.domain.Store
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.Singles
 
-class NetPizzaStore(private val apiService: ApiService) : PizzaStore {
-    override fun findById(pizzaId: String): Single<LookupOperation<Pizza>> {
+class NetPizzaStore(private val apiService: ApiService) : Store<Pizza> {
+    override fun findById(entityId: String): Single<LookupOperation<Pizza>> {
         return Single.never()
     }
 
@@ -26,7 +26,8 @@ class NetPizzaStore(private val apiService: ApiService) : PizzaStore {
                 }
                 pizzaLookup is LookupOperation.Success && ingredientsLookup is LookupOperation.Success -> {
                     val (pizzas, basePrice) = pizzaLookup.data
-                    val ingredients = ingredientsLookup.data.map { it.id to it }.toMap()
+                    val ingredientsData = ingredientsLookup.data
+                    val ingredients = ingredientsData.map { it.id to it }.toMap()
 
                     val result = pizzas.map {
                         val filteredIngredients = it.ingredients.map { ingredients.getValue(it).toDomainObject() }
@@ -39,5 +40,5 @@ class NetPizzaStore(private val apiService: ApiService) : PizzaStore {
         }
     }
 
-    override fun insertAll(pizzas: List<Pizza>): Completable = Completable.complete()
+    override fun insertAll(entities: List<Pizza>): Completable = Completable.complete()
 }

@@ -36,7 +36,7 @@ class ItemViewHolder(override val containerView: View, private val publisher: Fl
     fun bind(item: Item) {
         itemName.text = item.name
         itemPrice.text = item.formattedPrice()
-        deleteAction.setOnClickListener {
+        primaryAction.setOnClickListener {
             publisher.onNext(item)
         }
     }

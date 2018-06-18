@@ -16,4 +16,4 @@ data class IngredientData(
         val id: String
 )
 
-fun IngredientData.toDomainObject() = Ingredient(price = price, name = name)
+fun IngredientData.toDomainObject() = Ingredient(price = price, name = name, remoteId = id)

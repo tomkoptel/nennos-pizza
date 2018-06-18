@@ -1,12 +1,13 @@
 package com.sample.nennos.net
 
+import com.sample.nennos.domain.Drink
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class DrinkData(
         @Json(name = "price")
-        val price: String,
+        val price: Double,
 
         @Json(name = "name")
         val name: String,
@@ -14,3 +15,5 @@ data class DrinkData(
         @Json(name = "id")
         val id: String
 )
+
+fun DrinkData.toDomainObject() = Drink(remoteId = id, name = name, price = price)

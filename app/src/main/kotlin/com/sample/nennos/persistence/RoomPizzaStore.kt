@@ -3,26 +3,26 @@ package com.sample.nennos.persistence
 import com.sample.nennos.domain.Ingredient
 import com.sample.nennos.domain.LookupOperation
 import com.sample.nennos.domain.Pizza
-import com.sample.nennos.domain.PizzaStore
+import com.sample.nennos.domain.Store
 import io.reactivex.Single
 
-class RoomPizzaStore(private val dbProvider: () -> Single<NennoDataBase>) : PizzaStore {
+class RoomPizzaStore(private val dbProvider: () -> Single<NennoDataBase>) : Store<Pizza> {
     constructor(factory: NennoDataBase.Factory) : this({
         factory.getDatabase()
     })
 
-    override fun findById(pizzaId: String) = dbProvider().map {
+    override fun findById(entityId: String) = dbProvider().map {
         val pizzaDao = it.pizzaDao()
 
-        val pizzaEntity = pizzaDao.findPizzaById(pizzaId)
+        val pizzaEntity = pizzaDao.findPizzaById(entityId)
         val pizza = it.mapPizzaEntity(pizzaEntity)
 
         LookupOperation.Success(pizza) as LookupOperation<Pizza>
     }.onErrorReturn { LookupOperation.Error(it) }
 
 
-    override fun insertAll(pizzas: List<Pizza>) = dbProvider().map {
-        val pizzaWithIngredients = pizzas.map {
+    override fun insertAll(entities: List<Pizza>) = dbProvider().map {
+        val pizzaWithIngredients = entities.map {
             val pizzaEntity = it.toDataObject()
             val ingredientEntities = it.ingredients.map(Ingredient::toDataObject)
 

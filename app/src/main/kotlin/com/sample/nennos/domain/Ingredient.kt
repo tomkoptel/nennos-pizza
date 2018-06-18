@@ -5,5 +5,6 @@ import java.util.*
 data class Ingredient(
         val id: String = UUID.randomUUID().toString(),
         val name: String,
-        val price: Double
+        val price: Double,
+        val remoteId: String
 )

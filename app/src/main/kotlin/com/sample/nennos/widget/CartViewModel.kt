@@ -17,21 +17,16 @@ import timber.log.Timber
 class CartViewModel(private val cartRepo: CartRepo, private val schedulers: AppSchedulers) : ViewModel() {
     private val disposables = CompositeDisposable()
     private val savedToCartPublisher = ActionLiveData<Item>()
-    private val removedFromCartPublisher = ActionLiveData<Item>()
 
     val cartObservable: LiveData<Cart> by lazy(LazyThreadSafetyMode.NONE) {
         cartRepo.getRecentCart().fromIOToUI(schedulers).toLiveData()
     }
 
     val onAddToCart: LiveData<Item> = savedToCartPublisher
-    val onRemovedFromCart: LiveData<Item> = removedFromCartPublisher
 
     fun addToCart(item: Item) {
         cartRepo.updateOrCreateCart(item)
                 .fromIOToUI(schedulers)
-                .doOnSuccess {
-                    Timber.e("!!!")
-                }
                 .subscribeBy(
                         onSuccess = { savedToCartPublisher.value = it },
                         onError = Timber::e
@@ -42,7 +37,7 @@ class CartViewModel(private val cartRepo: CartRepo, private val schedulers: AppS
         cartRepo.removeItemFromCart(item)
                 .fromIOToUI(schedulers)
                 .subscribeBy(
-                        onSuccess = { removedFromCartPublisher.value = it },
+                        onSuccess = {},
                         onError = Timber::e
                 ).addTo(disposables)
     }
