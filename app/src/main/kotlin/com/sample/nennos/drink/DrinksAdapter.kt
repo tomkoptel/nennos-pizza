@@ -3,6 +3,7 @@ package com.sample.nennos.drink
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
@@ -32,6 +33,10 @@ class DrinksAdapter(private val layoutInflater: LayoutInflater) : ListAdapter<Dr
 }
 
 class DrinkViewHolder(override val containerView: View, private val publisher: MutableLiveData<Drink>) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+    init {
+        primaryAction.setImageDrawable(ContextCompat.getDrawable(containerView.context, R.drawable.ic_add))
+    }
+
     fun bind(drink: Drink) {
         itemName.text = drink.name
         itemPrice.text = drink.formattedPrice()
