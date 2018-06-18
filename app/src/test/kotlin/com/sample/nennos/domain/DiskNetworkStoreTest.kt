@@ -14,18 +14,18 @@ import org.junit.Assert.fail
 import org.junit.Test
 import java.util.concurrent.TimeUnit
 
-class PizzaRepoImplTest {
+class DiskNetworkStoreTest {
     private val timeout = 200L
     private val timeUnit = TimeUnit.MILLISECONDS
     private val testScheduler = TestScheduler()
 
     private val pizzaFromNet = mockk<Pizza>(name = "pizzaFromNet")
     private val pizzaDiskNet = mockk<Pizza>(name = "pizzaDiskNet")
-    private val diskStore = mockk<PizzaStore> {
+    private val diskStore = mockk<Store<Pizza>> {
         every { insertAll(any()) } returns Completable.complete()
     }
-    private val netStore = mockk<PizzaStore>()
-    private val repoUnderTest = PizzaRepoImpl(diskStore, netStore)
+    private val netStore = mockk<Store<Pizza>>()
+    private val repoUnderTest = DiskNetworkStore(diskStore, netStore)
 
     private lateinit var test: TestObserver<LookupOperation<List<Pizza>>>
 

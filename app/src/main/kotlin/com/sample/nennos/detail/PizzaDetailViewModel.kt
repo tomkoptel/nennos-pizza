@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sample.nennos.domain.LookupOperation
-import com.sample.nennos.domain.PizzaRepo
+import com.sample.nennos.domain.Pizza
+import com.sample.nennos.domain.Repo
 import com.sample.nennos.ktx.toChoice
 import com.sample.nennos.rx.AppSchedulers
 import com.sample.nennos.rx.fromComputationToUI
@@ -17,7 +18,7 @@ import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
 
 class PizzaDetailViewModel(
-        private val pizzaRepo: PizzaRepo,
+        private val pizzaRepo: Repo<Pizza>,
         private val schedulers: AppSchedulers
 ) : ViewModel() {
     private val onIngredientChecked = PublishProcessor.create<IngredientChoice>()

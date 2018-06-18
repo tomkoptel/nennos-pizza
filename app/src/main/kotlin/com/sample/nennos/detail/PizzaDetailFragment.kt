@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sample.nennos.R
 import com.sample.nennos.domain.Item
 import com.sample.nennos.domain.LookupOperation
+import com.sample.nennos.domain.Pizza
 import com.sample.nennos.kodein.KodeinFragment
 import com.sample.nennos.ktx.arch.observeNonNull
 import com.sample.nennos.ktx.formattedPrice
@@ -30,7 +31,7 @@ class PizzaDetailFragment : KodeinFragment() {
             Kodein.Module {
                 bind<PizzaIngredientsAdapter>() with provider { PizzaIngredientsAdapter(instance()) }
                 bind<PizzaDetailViewModel>() with provider {
-                    instance<FragmentActivity>().provideModel { PizzaDetailViewModel(instance(), instance()) }
+                    instance<FragmentActivity>().provideModel { PizzaDetailViewModel(instance(Pizza::class), instance()) }
                 }
                 bind<CartViewModel>() with provider {
                     instance<FragmentActivity>().provideModel { CartViewModel(instance(), instance()) }

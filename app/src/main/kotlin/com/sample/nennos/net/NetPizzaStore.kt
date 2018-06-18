@@ -2,12 +2,12 @@ package com.sample.nennos.net
 
 import com.sample.nennos.domain.LookupOperation
 import com.sample.nennos.domain.Pizza
-import com.sample.nennos.domain.PizzaStore
+import com.sample.nennos.domain.Store
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.Singles
 
-class NetPizzaStore(private val apiService: ApiService) : PizzaStore {
+class NetPizzaStore(private val apiService: ApiService) : Store<Pizza> {
     override fun findById(pizzaId: String): Single<LookupOperation<Pizza>> {
         return Single.never()
     }

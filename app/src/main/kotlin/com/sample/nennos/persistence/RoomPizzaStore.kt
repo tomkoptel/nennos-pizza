@@ -3,10 +3,10 @@ package com.sample.nennos.persistence
 import com.sample.nennos.domain.Ingredient
 import com.sample.nennos.domain.LookupOperation
 import com.sample.nennos.domain.Pizza
-import com.sample.nennos.domain.PizzaStore
+import com.sample.nennos.domain.Store
 import io.reactivex.Single
 
-class RoomPizzaStore(private val dbProvider: () -> Single<NennoDataBase>) : PizzaStore {
+class RoomPizzaStore(private val dbProvider: () -> Single<NennoDataBase>) : Store<Pizza> {
     constructor(factory: NennoDataBase.Factory) : this({
         factory.getDatabase()
     })
