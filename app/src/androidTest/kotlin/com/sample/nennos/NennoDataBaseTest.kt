@@ -104,6 +104,7 @@ class NennoDataBaseTest {
         cartDao.getAllCarts() shouldContain cart
 
         val cartPizzaEntity = CartPizzaEntity(pizzaId = pizzaId, cartId = cartId, ingredients = ingredientId)
+        cartDao.insertPizza(cartPizzaEntity)
         cartDao.getAllCartPizzaEntity() shouldContain cartPizzaEntity
 
         val pizzas = cartDao.getPizzasByCartId(cartId)

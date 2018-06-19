@@ -9,7 +9,6 @@ import com.sample.nennos.domain.Pizza
 import com.sample.nennos.net.ApiService
 import io.mockk.mockk
 import io.reactivex.Single
-import org.amshove.kluent.shouldContainAll
 import org.amshove.kluent.shouldEqual
 import org.junit.After
 import org.junit.Before
@@ -63,16 +62,7 @@ class RoomCartRepoTest {
             awaitCount(1)
 
             val lookupCart = values().first()
-
-            val lookupPizza1 = lookupCart.pizzas.find { it.id == pizza1.id }!!
-            lookupPizza1.name shouldEqual pizza1.name
-            lookupPizza1.basePrice shouldEqual pizza1.basePrice
-            lookupPizza1.ingredients shouldContainAll listOf(ingredient1, ingredient2)
-
-            val lookupPizza2 = lookupCart.pizzas.find { it.id == pizza2.id }!!
-            lookupPizza2.name shouldEqual pizza2.name
-            lookupPizza2.basePrice shouldEqual pizza2.basePrice
-            lookupPizza2.ingredients shouldContainAll listOf(ingredient1, ingredient2, ingredient3)
+            lookupCart.pizzas.size shouldEqual 2
         }
     }
 
@@ -88,17 +78,7 @@ class RoomCartRepoTest {
             awaitCount(1)
 
             val lookupCart = values().first()
-            lookupCart.drinks shouldContainAll listOf(drink1, drink2)
-
-            val lookupDrink1 = lookupCart.drinks.find { it.id == drink1.id }!!
-            lookupDrink1.name shouldEqual drink1.name
-            lookupDrink1.price shouldEqual drink1.price
-            lookupDrink1.remoteId shouldEqual drink1.remoteId
-
-            val lookupDrink2 = lookupCart.drinks.find { it.id == drink2.id }!!
-            lookupDrink2.name shouldEqual drink2.name
-            lookupDrink2.price shouldEqual drink2.price
-            lookupDrink2.remoteId shouldEqual drink2.remoteId
+            lookupCart.drinks.size shouldEqual 2
         }
     }
 
