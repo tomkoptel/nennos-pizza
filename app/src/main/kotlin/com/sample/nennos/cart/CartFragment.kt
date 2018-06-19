@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sample.nennos.R
+import com.sample.nennos.domain.Drink
+import com.sample.nennos.domain.Pizza
 import com.sample.nennos.kodein.KodeinFragment
 import com.sample.nennos.ktx.arch.observeNonNull
 import com.sample.nennos.ktx.formattedPrice
@@ -58,7 +60,10 @@ class CartFragment : KodeinFragment() {
             cartAdapter.submitList(items)
         }
         cartAdapter.onRemoveItem.observeNonNull(viewLifecycleOwner) {
-            cartViewModel.removeFromCart(it)
+            when (it) {
+                is Pizza -> cartViewModel.removeFromCart(it)
+                is Drink -> cartViewModel.removeFromCart(it)
+            }
         }
     }
 }

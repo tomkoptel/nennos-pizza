@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a5dc0e5b0f0ad1b82d2d8ea308e4c07e",
+    "identityHash": "bfee20b178531ba063193bb773f2b302",
     "entities": [
       {
         "tableName": "Pizza",
@@ -44,7 +44,7 @@
       },
       {
         "tableName": "Ingredient",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` TEXT NOT NULL, `name` TEXT NOT NULL, `price` REAL NOT NULL, `remoteId` TEXT NOT NULL, PRIMARY KEY(`uid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` TEXT NOT NULL, `name` TEXT NOT NULL, `price` REAL NOT NULL, `remoteId` INTEGER NOT NULL, PRIMARY KEY(`uid`))",
         "fields": [
           {
             "fieldPath": "uid",
@@ -67,7 +67,7 @@
           {
             "fieldPath": "remoteId",
             "columnName": "remoteId",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -82,7 +82,7 @@
       },
       {
         "tableName": "Drink",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` TEXT NOT NULL, `name` TEXT NOT NULL, `price` REAL NOT NULL, `remoteId` TEXT NOT NULL, PRIMARY KEY(`uid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` TEXT NOT NULL, `name` TEXT NOT NULL, `price` REAL NOT NULL, `remoteId` INTEGER NOT NULL, PRIMARY KEY(`uid`))",
         "fields": [
           {
             "fieldPath": "uid",
@@ -105,8 +105,40 @@
           {
             "fieldPath": "remoteId",
             "columnName": "remoteId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "uid"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Cart",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` TEXT NOT NULL, `createdAt` TEXT NOT NULL, `checkedOutAt` TEXT, PRIMARY KEY(`uid`))",
+        "fields": [
+          {
+            "fieldPath": "uid",
+            "columnName": "uid",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "checkedOutAt",
+            "columnName": "checkedOutAt",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -169,53 +201,9 @@
         ]
       },
       {
-        "tableName": "Cart",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` TEXT NOT NULL, `createdAt` TEXT NOT NULL, `checkedOutAt` TEXT, PRIMARY KEY(`uid`))",
+        "tableName": "CartIngredient",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cartId` TEXT NOT NULL, `ingredientId` TEXT NOT NULL, `pizzaId` TEXT NOT NULL, PRIMARY KEY(`cartId`, `ingredientId`, `pizzaId`), FOREIGN KEY(`cartId`) REFERENCES `Cart`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`ingredientId`) REFERENCES `Ingredient`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`pizzaId`) REFERENCES `Pizza`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
-          {
-            "fieldPath": "uid",
-            "columnName": "uid",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "createdAt",
-            "columnName": "createdAt",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "checkedOutAt",
-            "columnName": "checkedOutAt",
-            "affinity": "TEXT",
-            "notNull": false
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "uid"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "Item",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` TEXT NOT NULL, `name` TEXT NOT NULL, `cartId` TEXT NOT NULL, `price` REAL NOT NULL, `createdAt` TEXT NOT NULL, PRIMARY KEY(`uid`), FOREIGN KEY(`cartId`) REFERENCES `Cart`(`uid`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
-        "fields": [
-          {
-            "fieldPath": "uid",
-            "columnName": "uid",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "name",
-            "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
           {
             "fieldPath": "cartId",
             "columnName": "cartId",
@@ -223,21 +211,23 @@
             "notNull": true
           },
           {
-            "fieldPath": "price",
-            "columnName": "price",
-            "affinity": "REAL",
+            "fieldPath": "ingredientId",
+            "columnName": "ingredientId",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "createdAt",
-            "columnName": "createdAt",
+            "fieldPath": "pizzaId",
+            "columnName": "pizzaId",
             "affinity": "TEXT",
             "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "uid"
+            "cartId",
+            "ingredientId",
+            "pizzaId"
           ],
           "autoGenerate": false
         },
@@ -245,10 +235,132 @@
         "foreignKeys": [
           {
             "table": "Cart",
-            "onDelete": "NO ACTION",
+            "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
               "cartId"
+            ],
+            "referencedColumns": [
+              "uid"
+            ]
+          },
+          {
+            "table": "Ingredient",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "ingredientId"
+            ],
+            "referencedColumns": [
+              "uid"
+            ]
+          },
+          {
+            "table": "Pizza",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "pizzaId"
+            ],
+            "referencedColumns": [
+              "uid"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "CartPizza",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cartId` TEXT NOT NULL, `pizzaId` TEXT NOT NULL, PRIMARY KEY(`cartId`, `pizzaId`), FOREIGN KEY(`cartId`) REFERENCES `Cart`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`pizzaId`) REFERENCES `Pizza`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "cartId",
+            "columnName": "cartId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pizzaId",
+            "columnName": "pizzaId",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "cartId",
+            "pizzaId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "Cart",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "cartId"
+            ],
+            "referencedColumns": [
+              "uid"
+            ]
+          },
+          {
+            "table": "Pizza",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "pizzaId"
+            ],
+            "referencedColumns": [
+              "uid"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "CartDrink",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cartId` TEXT NOT NULL, `drinkId` TEXT NOT NULL, PRIMARY KEY(`cartId`, `drinkId`), FOREIGN KEY(`cartId`) REFERENCES `Cart`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`drinkId`) REFERENCES `Drink`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "cartId",
+            "columnName": "cartId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "drinkId",
+            "columnName": "drinkId",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "cartId",
+            "drinkId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "Cart",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "cartId"
+            ],
+            "referencedColumns": [
+              "uid"
+            ]
+          },
+          {
+            "table": "Drink",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "drinkId"
             ],
             "referencedColumns": [
               "uid"
@@ -259,7 +371,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a5dc0e5b0f0ad1b82d2d8ea308e4c07e\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"bfee20b178531ba063193bb773f2b302\")"
     ]
   }
 }

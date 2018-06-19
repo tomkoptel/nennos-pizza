@@ -1,6 +1,5 @@
 package com.sample.nennos.detail
 
-import com.sample.nennos.domain.Item
 import com.sample.nennos.domain.Pizza
 
 data class PizzaChoice(val pizza: Pizza, val ingredients: List<IngredientChoice>) {
@@ -20,5 +19,3 @@ data class PizzaChoice(val pizza: Pizza, val ingredients: List<IngredientChoice>
         return copy(ingredients = newIngredientList).apply { price }
     }
 }
-
-fun PizzaChoice.toCartItem() = Item(name = pizza.name, price = price)

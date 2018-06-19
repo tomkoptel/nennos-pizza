@@ -13,9 +13,11 @@ import io.reactivex.Single
         PizzaEntity::class,
         IngredientEntity::class,
         DrinkEntity::class,
-        PizzaIngredientEntity::class,
         CartEntity::class,
-        ItemEntity::class
+        PizzaIngredientEntity::class,
+        CartIngredientEntity::class,
+        CartPizzaEntity::class,
+        CartDrinkEntity::class
 ), version = 1)
 @TypeConverters(value = arrayOf(TimeConverter::class))
 abstract class NennoDataBase : RoomDatabase() {
@@ -29,9 +31,7 @@ abstract class NennoDataBase : RoomDatabase() {
     class Factory(private val app: Application) {
         @get:WorkerThread
         val database by lazy {
-            Room.databaseBuilder(app, NennoDataBase::class.java, "nenno.db")
-                    .addCallback(Seed)
-                    .build()
+            Room.databaseBuilder(app, NennoDataBase::class.java, "nenno.db").build()
         }
 
         @UiThread

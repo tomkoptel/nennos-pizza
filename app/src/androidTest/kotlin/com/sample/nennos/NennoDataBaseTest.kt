@@ -5,13 +5,12 @@ import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
 import com.sample.nennos.persistence.*
 import org.amshove.kluent.shouldBeEmpty
+import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldContainAll
-import org.amshove.kluent.shouldEqual
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.threeten.bp.OffsetDateTime
 
 @RunWith(AndroidJUnit4::class)
 class NennoDataBaseTest {
@@ -79,22 +78,41 @@ class NennoDataBaseTest {
     }
 
     @Test
-    fun test_insert_cart_and_items() {
-        val now = OffsetDateTime.now()
-        val cartEntity = CartEntity("1", now, null)
-        val item1 = ItemEntity("1", "Item 1", cartEntity.uid, 10.0, now)
-        val item2 = ItemEntity("2", "Item 2", cartEntity.uid, 50.0, now)
-
-        val cart = CartAndItems().apply {
-            cart = cartEntity
-            items = listOf(item1, item2)
-        }
+    fun test_insert_cart_entity() {
+        val cart = CartEntity()
         cartDao.insertCart(cart)
 
-        val selectedCarts = cartDao.getCarts()
-        val selectedCart = selectedCarts.first()
+        val carts = cartDao.getRecentCarts().take(1).blockingFirst()
+        carts shouldContain cart
+    }
 
-        selectedCart.cart shouldEqual cartEntity
-        selectedCart.items shouldContainAll listOf(item1, item2)
+    @Test
+    fun test_insert_cart_entity_with_ingredients() {
+        val pizza = PizzaEntity(name = "Pizza 1")
+        val pizzaId = pizza.uid
+        pizzaDao.insertAll(listOf(pizza))
+        pizzaDao.getPizzas() shouldContain pizza
+
+        val ingredient = IngredientEntity(name = "Ingredient 1", price = 1.0)
+        val ingredientId = ingredient.uid
+        ingredientDao.insertAll(listOf(ingredient))
+        ingredientDao.getIngredients() shouldContain ingredient
+
+        val cart = CartEntity()
+        val cartId = cart.uid
+        cartDao.insertCart(cart)
+        cartDao.getAllCarts() shouldContain cart
+
+        val cartPizzaEntity = CartPizzaEntity(pizzaId = pizzaId, cartId = cartId)
+        val cartIngredientEntity = CartIngredientEntity(cartId = cartId, pizzaId = pizzaId, ingredientId = ingredientId)
+        cartDao.insertCartPizzaWithIngredients(cartPizzaEntity, listOf(cartIngredientEntity))
+        cartDao.getAllCartPizzaEntity() shouldContain cartPizzaEntity
+        cartDao.getAllCartIngredientEntity() shouldContain cartIngredientEntity
+
+        val pizzas = cartDao.getPizzasByCartId(cartId)
+        pizzas shouldContain pizza
+
+        val ingredients = cartDao.getIngredientsByPizzaAndCartId(cartId = cartId, pizzaId = pizzaId)
+        ingredients shouldContain ingredient
     }
 }

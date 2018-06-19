@@ -65,6 +65,6 @@ class CartView @JvmOverloads constructor(
     }
 
     private fun updateUi(cart: Cart) {
-        itemNumber.text = cart.items.size.toString()
+        itemNumber.text = cart.size.toString()
     }
 }

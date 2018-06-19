@@ -9,7 +9,7 @@ data class PizzaData(
         val name: String,
 
         @Json(name = "ingredients")
-        val ingredients: List<String> = emptyList(),
+        val ingredients: List<Int> = emptyList(),
 
         @Json(name = "imageUrl")
         val imageUrl: String? = null
