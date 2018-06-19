@@ -19,7 +19,10 @@ interface CartDao {
     fun getPizzasByCartId(cartId: String): List<PizzaEntity>
 
     @Query("SELECT * FROM CartPizza WHERE CartPizza.cartId = :cartId")
-    fun getCartPizzaEntityByCartId(cartId: String): List<CartPizzaEntity>
+    fun getCartPizzaEntitiesByCartId(cartId: String): List<CartPizzaEntity>
+
+    @Query("SELECT * FROM CartDrink WHERE CartDrink.cartId = :cartId")
+    fun getCartDrinkEntitiesByCartId(cartId: String): List<CartDrinkEntity>
 
     @Query(
             """

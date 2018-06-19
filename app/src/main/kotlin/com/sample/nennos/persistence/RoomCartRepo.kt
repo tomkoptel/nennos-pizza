@@ -89,7 +89,7 @@ class RoomCartRepo(private val dbProvider: () -> Single<NennoDataBase>) : CartRe
             val cart = recentCarts.last()
             val cartId = cart.uid
 
-            val cartPizzaEntities = cartDao.getCartPizzaEntityByCartId(cartId = cartId)
+            val cartPizzaEntities = cartDao.getCartPizzaEntitiesByCartId(cartId = cartId)
             val pizzas = cartPizzaEntities.map {
                 val pizza = pizzaDao.findPizzaById(it.pizzaId)
                 val ids = it.ingredients.split(",").map { it.trim() }
@@ -98,8 +98,11 @@ class RoomCartRepo(private val dbProvider: () -> Single<NennoDataBase>) : CartRe
                 pizza.toDomainObject(ingredients).copy(id = it.pid)
             }
 
-            val drinksByCartId = cartDao.getDrinksByCartId(cartId)
-            val drinks = drinksByCartId.map(DrinkEntity::toDomainObject)
+            val drinkCartEntitiesByCartId = cartDao.getCartDrinkEntitiesByCartId(cartId)
+            val drinkEntitiesByCartId = cartDao.getDrinksByCartId(cartId).map { it.uid to it }.toMap()
+            val drinks = drinkCartEntitiesByCartId.map {
+                drinkEntitiesByCartId.getValue(it.drinkId).toDomainObject().copy(id = it.pid)
+            }
 
             cart.toDomainObject(pizzas, drinks)
         }
