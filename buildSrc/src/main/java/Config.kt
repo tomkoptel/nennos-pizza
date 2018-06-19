@@ -72,8 +72,11 @@ object Deps {
     private const val kluentVersion = "1.38"
     const val kluent = "org.amshove.kluent:kluent:$kluentVersion"
     const val kluentAndroid = "org.amshove.kluent:kluent-android:$kluentVersion"
-    const val mockk = "io.mockk:mockk:1.8.3"
     const val junit4 = "junit:junit:4.12"
+
+    private const val mockVersion = "1.8.3"
+    const val mockk = "io.mockk:mockk:$mockVersion"
+    const val mockkAndroid = "io.mockk:mockk-android:$mockVersion"
 
     // UI testing
     const val espressoContrib = "androidx.test.espresso:espresso-contrib:3.1.0-alpha3"

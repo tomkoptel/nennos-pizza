@@ -22,9 +22,9 @@ class RoomPizzaStoreTest {
     private lateinit var database: NennoDataBase
     private lateinit var roomStore: RoomPizzaStore
 
-    private val pepper = Ingredient(name = "Chili Pepper", price = 5.0)
-    private val cheese = Ingredient(name = "Cheese", price = 2.0)
-    private val ananas = Ingredient(name = "Ananas", price = 3.0)
+    private val pepper = Ingredient(name = "Chili Pepper", price = 5.0, remoteId = 1)
+    private val cheese = Ingredient(name = "Cheese", price = 2.0, remoteId = 2)
+    private val ananas = Ingredient(name = "Ananas", price = 3.0, remoteId = 3)
     private val chiliPizza = Pizza(
             basePrice = 10.0,
             name = "Chili",

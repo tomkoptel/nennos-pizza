@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.sample.nennos.R
-import com.sample.nennos.domain.Item
 import com.sample.nennos.domain.LookupOperation
 import com.sample.nennos.domain.Pizza
 import com.sample.nennos.kodein.KodeinFragment
@@ -46,7 +45,7 @@ class PizzaDetailFragment : KodeinFragment() {
     private val ingredientsAdapter by instance<PizzaIngredientsAdapter>()
     private var toolbar: Toolbar? = null
 
-    private lateinit var cartItem: Item
+    private var pizzaChoice: PizzaChoice? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.pizza_detail_fragment, container, false)
@@ -58,8 +57,6 @@ class PizzaDetailFragment : KodeinFragment() {
         super.onActivityCreated(savedInstanceState)
         val args = checkNotNull(arguments) { "Developer error! You should start activity with onPizzaChange id." }
         val details = args.getParcelable("details") as PizzaDetails
-
-        cartItem = details.toCartItem()
 
         pizzaImage.load(picasso, details.imageUrl)
         addToCard.setPrice(details.formattedPrice())
@@ -85,7 +82,7 @@ class PizzaDetailFragment : KodeinFragment() {
             when (it) {
                 is LookupOperation.Success -> {
                     val pizzaChoice = it.data
-                    cartItem = pizzaChoice.toCartItem()
+                    this.pizzaChoice = it.data
 
                     progressBar.hide()
 
@@ -105,7 +102,9 @@ class PizzaDetailFragment : KodeinFragment() {
             CustomSnackbar.make(recyclerView, R.string.added_to_cart, Snackbar.LENGTH_SHORT).show()
         }
         addToCard.setOnClickListener {
-            cartViewModel.addToCart(cartItem)
+            pizzaChoice?.let {
+                cartViewModel.addToCart(it.toDomainObject())
+            }
         }
     }
 

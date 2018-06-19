@@ -13,7 +13,7 @@ data class DrinkData(
         val name: String,
 
         @Json(name = "id")
-        val id: String
+        val id: Int
 )
 
 fun DrinkData.toDomainObject() = Drink(remoteId = id, name = name, price = price)

@@ -7,4 +7,7 @@ import androidx.room.Query
 interface IngredientDao : BaseDao<IngredientEntity> {
     @Query("SELECT * FROM Ingredient")
     fun getIngredients(): List<IngredientEntity>
+
+    @Query("SELECT * FROM Ingredient WHERE uid IN (:ids)")
+    fun getIngredients(ids: List<String>): List<IngredientEntity>
 }

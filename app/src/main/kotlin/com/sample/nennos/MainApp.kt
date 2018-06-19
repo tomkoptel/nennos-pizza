@@ -29,6 +29,7 @@ class MainApp : Application(), KodeinAware {
 
     override fun onCreate() {
         super.onCreate()
+        Timber.tag("NennoPizzaApp")
         Timber.plant(DebugTree())
     }
 }

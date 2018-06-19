@@ -9,7 +9,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.sample.nennos.R
 import com.sample.nennos.domain.Drink
 import com.sample.nennos.domain.LookupOperation
-import com.sample.nennos.domain.toCartItem
 import com.sample.nennos.kodein.KodeinFragment
 import com.sample.nennos.ktx.arch.observeNonNull
 import com.sample.nennos.widget.CartViewModel
@@ -59,7 +58,7 @@ class DrinksListFragment : KodeinFragment() {
             CustomSnackbar.make(recyclerView, R.string.added_to_cart, Snackbar.LENGTH_SHORT).show()
         }
         drinksAdapter.onPrimaryAction.observeNonNull(this) {
-            cartViewModel.addToCart(it.toCartItem())
+            cartViewModel.addToCart(it)
         }
     }
 }

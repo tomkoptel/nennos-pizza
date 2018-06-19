@@ -10,7 +10,7 @@ data class DrinkEntity @JvmOverloads constructor(
         @PrimaryKey var uid: String = UUID.randomUUID().toString(),
         var name: String = "",
         var price: Double = 0.0,
-        var remoteId: String = ""
+        var remoteId: Int = 0
 )
 
 fun Drink.toDataEntity() = DrinkEntity(uid = id, name = name, price = price, remoteId = remoteId)

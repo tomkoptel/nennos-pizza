@@ -1,5 +1,6 @@
 package com.sample.nennos.net
 
+import com.sample.nennos.domain.Pizza
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -9,8 +10,13 @@ data class PizzaData(
         val name: String,
 
         @Json(name = "ingredients")
-        val ingredients: List<String> = emptyList(),
+        val ingredients: List<Int> = emptyList(),
 
         @Json(name = "imageUrl")
         val imageUrl: String? = null
 )
+
+fun Pizza.toDataObject(): PizzaData {
+    val ingredients = ingredients.map { it.remoteId }
+    return PizzaData(name = name, imageUrl = imageUrl, ingredients = ingredients)
+}

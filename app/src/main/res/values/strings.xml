@@ -14,4 +14,6 @@
     <string name="delete_action">Delete Action</string>
     <string name="the_cart_is_empty">The cart is empty</string>
     <string name="added_to_cart">Added to cart</string>
+    <string name="checkout_success">Check out success!</string>
+    <string name="checkout_failure">Check out failure. Try, again!</string>
 </resources>

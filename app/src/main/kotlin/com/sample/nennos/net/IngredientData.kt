@@ -13,7 +13,7 @@ data class IngredientData(
         val price: Double,
 
         @Json(name = "id")
-        val id: String
+        val id: Int
 )
 
 fun IngredientData.toDomainObject() = Ingredient(price = price, name = name, remoteId = id)

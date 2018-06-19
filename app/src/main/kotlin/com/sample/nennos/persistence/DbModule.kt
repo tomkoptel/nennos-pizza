@@ -13,5 +13,5 @@ val dbModule = Kodein.Module {
     bind<NennoDataBase.Factory>() with singleton { NennoDataBase.Factory(instance()) }
     bind<Store<Pizza>>(Store.Type.DISK) with singleton { RoomPizzaStore(instance<NennoDataBase.Factory>()) }
     bind<Store<Drink>>(Store.Type.DISK) with singleton { RoomDrinkStore(instance<NennoDataBase.Factory>()) }
-    bind<CartRepo>() with singleton { RoomCartRepo(instance<NennoDataBase.Factory>()) }
+    bind<CartRepo>() with singleton { RoomCartRepo(instance(), instance<NennoDataBase.Factory>()) }
 }

@@ -59,12 +59,11 @@ class CartView @JvmOverloads constructor(
 
     override fun onDetachedFromWindow() {
         if (isInEditMode) return
-
         cartModel.cartObservable.removeObservers(activity)
         super.onDetachedFromWindow()
     }
 
     private fun updateUi(cart: Cart) {
-        itemNumber.text = cart.items.size.toString()
+        itemNumber.text = cart.size.toString()
     }
 }

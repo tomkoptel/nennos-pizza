@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sample.nennos.R
 import com.sample.nennos.domain.LookupOperation
 import com.sample.nennos.domain.Pizza
-import com.sample.nennos.domain.toCartItem
 import com.sample.nennos.kodein.KodeinFragment
 import com.sample.nennos.ktx.arch.observeNonNull
 import com.sample.nennos.ktx.provideModel
@@ -83,7 +82,7 @@ class PizzaListFragment : KodeinFragment() {
         }
 
         pizzaAdapter.addToCartTaps.observeNonNull(viewLifecycleOwner) {
-            cartViewModel.addToCart(it.toCartItem())
+            cartViewModel.addToCart(it)
         }
     }
 }
