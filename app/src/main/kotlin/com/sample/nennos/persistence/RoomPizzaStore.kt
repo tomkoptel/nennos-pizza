@@ -36,8 +36,8 @@ class RoomPizzaStore(private val dbProvider: () -> Single<NennoDataBase>, privat
         it.ingredientDao().insertAll(ingredientEntities)
 
         // Make the custom pizza dependent on the all ingredients
-//        val customPizza = Seed.custom.toDataObject()
-//        pizzaWithIngredients[customPizza] = ingredientEntities.toList()
+        val customPizza = customPizza().toDataObject()
+        pizzaWithIngredients[customPizza] = ingredientEntities.toList()
 
         val joinEntities = PizzaIngredientEntity.fromMapping(pizzaWithIngredients)
         it.pizzaIngredientJoinDao().insertAll(joinEntities)
