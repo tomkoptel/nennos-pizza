@@ -20,7 +20,7 @@ class RoomCartRepo(private val dbProvider: () -> Single<NennoDataBase>) : CartRe
                 val cartId = yieldOrCreateNewCart(cartDao, cart)
                 val pizzaId = item.id
 
-                val ingredients = item.ingredients.map { it.id }.joinToString()
+                val ingredients = item.ingredients.joinToString { it.id }
                 val cartPizzaEntity = CartPizzaEntity(cartId = cartId, pizzaId = pizzaId, ingredients = ingredients)
                 cartDao.insertPizza(cartPizzaEntity)
 
@@ -81,6 +81,7 @@ class RoomCartRepo(private val dbProvider: () -> Single<NennoDataBase>) : CartRe
     private fun mapCartEntity(dataBase: NennoDataBase, recentCarts: List<CartEntity>): Cart {
         val cartDao = dataBase.cartDao()
         val ingredientDao = dataBase.ingredientDao()
+        val pizzaDao = dataBase.pizzaDao()
 
         return if (recentCarts.isEmpty()) {
             Cart.NULL
@@ -88,13 +89,15 @@ class RoomCartRepo(private val dbProvider: () -> Single<NennoDataBase>) : CartRe
             val cart = recentCarts.last()
             val cartId = cart.uid
 
-            val pizzasByCartId = cartDao.getPizzasByCartId(cartId)
-            val pizzas = pizzasByCartId.map {
-                val cartPizzaEntity = cartDao.getCartPizzaEntityByCartIdAndPizzId(cartId, it.uid)
-                val ingredientEntities = ingredientDao.getIngredients(cartPizzaEntity.ingredients)
+            val cartPizzaEntities = cartDao.getCartPizzaEntityByCartId(cartId = cartId)
+            val pizzas = cartPizzaEntities.map {
+                val pizza = pizzaDao.findPizzaById(it.pizzaId)
+                val ids = it.ingredients.split(",").map { it.trim() }
+                val ingredientEntities = ingredientDao.getIngredients(ids)
                 val ingredients = ingredientEntities.map(IngredientEntity::toDomainObject)
-                it.toDomainObject(ingredients)
+                pizza.toDomainObject(ingredients).copy(id = it.pid)
             }
+
             val drinksByCartId = cartDao.getDrinksByCartId(cartId)
             val drinks = drinksByCartId.map(DrinkEntity::toDomainObject)
 

@@ -8,6 +8,6 @@ interface IngredientDao : BaseDao<IngredientEntity> {
     @Query("SELECT * FROM Ingredient")
     fun getIngredients(): List<IngredientEntity>
 
-    @Query("SELECT * FROM Ingredient WHERE uid in (:ids)")
-    fun getIngredients(ids: String): List<IngredientEntity>
+    @Query("SELECT * FROM Ingredient WHERE uid IN (:ids)")
+    fun getIngredients(ids: List<String>): List<IngredientEntity>
 }

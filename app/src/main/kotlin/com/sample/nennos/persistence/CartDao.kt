@@ -18,8 +18,8 @@ interface CartDao {
     )
     fun getPizzasByCartId(cartId: String): List<PizzaEntity>
 
-    @Query("SELECT * FROM CartPizza WHERE CartPizza.cartId = :cartId AND CartPizza.pizzaId = :pizzaId")
-    fun getCartPizzaEntityByCartIdAndPizzId(cartId: String, pizzaId: String): CartPizzaEntity
+    @Query("SELECT * FROM CartPizza WHERE CartPizza.cartId = :cartId")
+    fun getCartPizzaEntityByCartId(cartId: String): List<CartPizzaEntity>
 
     @Query(
             """
@@ -48,10 +48,10 @@ interface CartDao {
     @Query("SELECT * FROM CartDrink")
     fun getAllCartDrinkEntity(): List<CartDrinkEntity>
 
-    @Query("DELETE FROM CartPizza WHERE CartPizza.cartId = :cartId AND CartPizza.pizzaId = :pizzaId")
+    @Query("DELETE FROM CartPizza WHERE CartPizza.cartId = :cartId AND CartPizza.pid = :pizzaId")
     fun removePizza(cartId: String, pizzaId: String)
 
-    @Query("DELETE FROM CartDrink WHERE CartDrink.cartId = :cartId AND CartDrink.drinkId = :drinkId")
+    @Query("DELETE FROM CartDrink WHERE CartDrink.cartId = :cartId AND CartDrink.pid = :drinkId")
     fun removeDrink(cartId: String, drinkId: String)
 
 }
