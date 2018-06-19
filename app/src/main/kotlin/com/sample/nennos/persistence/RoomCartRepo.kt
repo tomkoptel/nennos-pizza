@@ -6,6 +6,7 @@ import com.sample.nennos.domain.CartRepo
 import com.sample.nennos.domain.Drink
 import com.sample.nennos.domain.Pizza
 import com.sample.nennos.net.ApiService
+import com.sample.nennos.net.checkOut
 import com.sample.nennos.net.toNetDataObject
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -93,7 +94,7 @@ class RoomCartRepo(private val apiService: ApiService, private val dbProvider: (
 
         return Single.fromCallable { cart.toNetDataObject() }
                 .flatMapCompletable { apiService.checkOut(it) }
-                .mergeWith(updateInDb)
+                .concatWith(updateInDb)
     }
 
     private fun mapCartEntity(dataBase: NennoDataBase, recentCarts: List<CartEntity>): Cart {

@@ -24,6 +24,6 @@ data class Cart(
     val size: Int = drinks.size + pizzas.size
 
     private fun reducePrice(items: List<Item>): Double {
-        return if (items.isEmpty()) 0.0 else items.map { it.price }.reduce { r, l -> r + l }
+        return if (items.isEmpty()) 0.0 else items.map(Item::price).reduce { r, l -> r + l }
     }
 }

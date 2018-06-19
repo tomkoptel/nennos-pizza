@@ -59,7 +59,6 @@ class CartView @JvmOverloads constructor(
 
     override fun onDetachedFromWindow() {
         if (isInEditMode) return
-
         cartModel.cartObservable.removeObservers(activity)
         super.onDetachedFromWindow()
     }

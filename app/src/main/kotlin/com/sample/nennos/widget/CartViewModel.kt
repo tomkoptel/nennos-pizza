@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sample.nennos.domain.*
 import com.sample.nennos.ktx.arch.ActionLiveData
-import com.sample.nennos.ktx.arch.toLiveData
 import com.sample.nennos.rx.AppSchedulers
 import com.sample.nennos.rx.fromIOToUI
 import io.reactivex.Single
@@ -21,10 +20,16 @@ class CartViewModel(
     private val disposables = CompositeDisposable()
     private val savedToCartPublisher = ActionLiveData<Item>()
     private val checkOutResult = MutableLiveData<CheckOutResult>()
+    private val cartUpdates = MutableLiveData<Cart>()
 
-    val cartObservable: LiveData<Cart> by lazy(LazyThreadSafetyMode.NONE) {
-        cartRepo.getRecentCart().fromIOToUI(schedulers).toLiveData()
+    init {
+        cartRepo.getRecentCart().fromIOToUI(schedulers).subscribeBy(
+                onNext = { cartUpdates.value = it },
+                onError = Timber::e
+        ).addTo(disposables)
     }
+
+    val cartObservable: LiveData<Cart> = cartUpdates
 
     val onAddToCart: LiveData<Item> = savedToCartPublisher
 
@@ -68,10 +73,11 @@ class CartViewModel(
 
     fun checkOut(cart: Cart) {
         cartRepo.checkOut(cart)
+                .fromIOToUI(schedulers)
                 .subscribeBy(onError = {
-
+                    checkOutResult.value = CheckOutResult.Error(it)
                 }, onComplete = {
-
+                    checkOutResult.value = CheckOutResult.Success
                 })
     }
 
