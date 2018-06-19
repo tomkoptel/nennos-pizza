@@ -5,11 +5,15 @@ import com.sample.nennos.domain.Cart
 import com.sample.nennos.domain.CartRepo
 import com.sample.nennos.domain.Drink
 import com.sample.nennos.domain.Pizza
+import com.sample.nennos.net.ApiService
+import com.sample.nennos.net.toNetDataObject
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
+import org.threeten.bp.OffsetDateTime
 
-class RoomCartRepo(private val dbProvider: () -> Single<NennoDataBase>) : CartRepo {
-    constructor(factory: NennoDataBase.Factory) : this({
+class RoomCartRepo(private val apiService: ApiService, private val dbProvider: () -> Single<NennoDataBase>) : CartRepo {
+    constructor(apiService: ApiService, factory: NennoDataBase.Factory) : this(apiService, {
         factory.getDatabase()
     })
 
@@ -76,6 +80,20 @@ class RoomCartRepo(private val dbProvider: () -> Single<NennoDataBase>) : CartRe
                     }
                     .distinctUntilChanged()
         }
+    }
+
+    override fun checkOut(cart: Cart): Completable {
+        val updateInDb = dbProvider().map {
+            val currentCart = cart.toDataObject()
+            val newCart = currentCart.copy(checkedOutAt = OffsetDateTime.now())
+
+            it.cartDao().updateCart(newCart)
+            Unit
+        }.ignoreElement()
+
+        return Single.fromCallable { cart.toNetDataObject() }
+                .flatMapCompletable { apiService.checkOut(it) }
+                .mergeWith(updateInDb)
     }
 
     private fun mapCartEntity(dataBase: NennoDataBase, recentCarts: List<CartEntity>): Cart {

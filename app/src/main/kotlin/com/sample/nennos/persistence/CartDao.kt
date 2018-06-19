@@ -57,4 +57,6 @@ interface CartDao {
     @Query("DELETE FROM CartDrink WHERE CartDrink.cartId = :cartId AND CartDrink.pid = :drinkId")
     fun removeDrink(cartId: String, drinkId: String)
 
+    @Update
+    fun updateCart(cartEntity: CartEntity)
 }

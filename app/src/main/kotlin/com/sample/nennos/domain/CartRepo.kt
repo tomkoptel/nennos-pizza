@@ -1,5 +1,6 @@
 package com.sample.nennos.domain
 
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 
@@ -13,4 +14,6 @@ interface CartRepo {
     fun removeItemFromCart(item: Drink): Single<Drink>
 
     fun getRecentCart(): Flowable<Cart>
+
+    fun checkOut(cart: Cart): Completable
 }

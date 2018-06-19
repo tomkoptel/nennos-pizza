@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sample.nennos.R
+import com.sample.nennos.domain.Cart
 import com.sample.nennos.domain.Drink
 import com.sample.nennos.domain.Pizza
 import com.sample.nennos.kodein.KodeinFragment
@@ -57,6 +58,7 @@ class CartFragment : KodeinFragment() {
             cartIsEmpty.visibility = if (noItems) View.VISIBLE else View.GONE
 
             payButton.setPrice(it.formattedPrice())
+            payButton.setTag(0, it)
             cartAdapter.submitList(items)
         }
         cartAdapter.onRemoveItem.observeNonNull(viewLifecycleOwner) {
@@ -64,6 +66,10 @@ class CartFragment : KodeinFragment() {
                 is Pizza -> cartViewModel.removeFromCart(it)
                 is Drink -> cartViewModel.removeFromCart(it)
             }
+        }
+        payButton.setOnClickListener {
+            val cart = it.getTag(0) as Cart
+            cartViewModel.checkOut(cart)
         }
     }
 }

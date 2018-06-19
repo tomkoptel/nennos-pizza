@@ -97,4 +97,5 @@ dependencies {
     androidTestImplementation(Deps.kluentAndroid)
     androidTestImplementation(Deps.roomTesting)
     androidTestImplementation(Deps.navTesting)
+    androidTestImplementation(Deps.mockkAndroid)
 }

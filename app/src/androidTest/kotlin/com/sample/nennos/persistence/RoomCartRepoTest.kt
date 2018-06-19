@@ -6,6 +6,8 @@ import com.sample.nennos.domain.Cart
 import com.sample.nennos.domain.Drink
 import com.sample.nennos.domain.Ingredient
 import com.sample.nennos.domain.Pizza
+import com.sample.nennos.net.ApiService
+import io.mockk.mockk
 import io.reactivex.Single
 import org.amshove.kluent.shouldContainAll
 import org.amshove.kluent.shouldEqual
@@ -32,13 +34,15 @@ class RoomCartRepoTest {
     private val drink1 = Drink(name = "Drink 1", price = 1.0, remoteId = 1)
     private val drink2 = Drink(name = "Drink 2", price = 1.0, remoteId = 2)
 
+    private val apiService = mockk<ApiService>()
+
     @Before
     fun setUp() {
         database = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getContext(),
                 NennoDataBase::class.java)
                 .allowMainThreadQueries()
                 .build()
-        roomStore = RoomCartRepo { Single.just(database) }
+        roomStore = RoomCartRepo(apiService) { Single.just(database) }
     }
 
     @After
