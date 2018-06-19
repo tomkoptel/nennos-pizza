@@ -57,6 +57,7 @@ class CartFragment : KodeinFragment() {
             adapter = cartAdapter
         }
 
+        progressBar.show()
         cartViewModel.cartObservable.observeNonNull(this) {
             val items = it.items
             val noItems = items.isEmpty()
@@ -66,7 +67,11 @@ class CartFragment : KodeinFragment() {
 
             payButton.setPrice(it.formattedPrice())
             payButton.tag = it
+
+            recyclerView.visibility = View.VISIBLE
             cartAdapter.submitList(items)
+
+            progressBar.hide()
         }
         cartAdapter.onRemoveItem.observeNonNull(viewLifecycleOwner) {
             when (it) {
