@@ -103,7 +103,7 @@ class PizzaDetailFragment : KodeinFragment() {
         }
         addToCard.setOnClickListener {
             pizzaChoice?.let {
-                cartViewModel.addToCart(it.pizza)
+                cartViewModel.addToCart(it.toDomainObject())
             }
         }
     }
