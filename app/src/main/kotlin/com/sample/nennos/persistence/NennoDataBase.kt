@@ -15,7 +15,6 @@ import io.reactivex.Single
         DrinkEntity::class,
         CartEntity::class,
         PizzaIngredientEntity::class,
-        CartIngredientEntity::class,
         CartPizzaEntity::class,
         CartDrinkEntity::class
 ), version = 1)

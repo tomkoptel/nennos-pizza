@@ -107,9 +107,9 @@ class RoomCartRepoTest {
         val currentCart1 = Cart(createdAt = OffsetDateTime.now().minusHours(1))
         val currentCart2 = Cart(createdAt = OffsetDateTime.now())
 
-        cartDao.insertCart(completedCart.toDataObject())
-        cartDao.insertCart(currentCart1.toDataObject())
-        cartDao.insertCart(currentCart2.toDataObject())
+        cartDao.insertPizza(completedCart.toDataObject())
+        cartDao.insertPizza(currentCart1.toDataObject())
+        cartDao.insertPizza(currentCart2.toDataObject())
 
         roomStore.getRecentCart().test().apply {
             assertNoErrors()

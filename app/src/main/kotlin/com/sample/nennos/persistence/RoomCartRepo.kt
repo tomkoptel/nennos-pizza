@@ -1,5 +1,6 @@
 package com.sample.nennos.persistence
 
+import androidx.room.RxRoom
 import com.sample.nennos.domain.Cart
 import com.sample.nennos.domain.CartRepo
 import com.sample.nennos.domain.Drink
@@ -19,9 +20,9 @@ class RoomCartRepo(private val dbProvider: () -> Single<NennoDataBase>) : CartRe
                 val cartId = yieldOrCreateNewCart(cartDao, cart)
                 val pizzaId = item.id
 
-                val cartPizzaEntity = CartPizzaEntity(cartId = cartId, pizzaId = pizzaId)
-                val cartIngredientEntity = item.ingredients.map { CartIngredientEntity(cartId = cartId, ingredientId = it.id, pizzaId = pizzaId) }
-                cartDao.insertCartPizzaWithIngredients(cartPizzaEntity, cartIngredientEntity)
+                val ingredients = item.ingredients.map { it.id }.joinToString()
+                val cartPizzaEntity = CartPizzaEntity(cartId = cartId, pizzaId = pizzaId, ingredients = ingredients)
+                cartDao.insertPizza(cartPizzaEntity)
 
                 item
             }
@@ -45,7 +46,7 @@ class RoomCartRepo(private val dbProvider: () -> Single<NennoDataBase>) : CartRe
     override fun removeItemFromCart(item: Pizza): Single<Pizza> {
         return dbProvider().flatMap { database ->
             currentCart(database) { cart ->
-                database.cartDao().removePizzaIngredients(cartId = cart.id, pizzaId = item.id)
+                database.cartDao().removePizza(cartId = cart.id, pizzaId = item.id)
                 item
             }
         }
@@ -69,14 +70,17 @@ class RoomCartRepo(private val dbProvider: () -> Single<NennoDataBase>) : CartRe
 
     override fun getRecentCart(): Flowable<Cart> {
         return dbProvider().flatMapPublisher { db ->
-            db.cartDao().getRecentCarts()
+            RxRoom.createFlowable(db, "CartPizza", "CartDrink")
+                    .flatMap {
+                        db.cartDao().getRecentCarts().map { mapCartEntity(db, it) }
+                    }
                     .distinctUntilChanged()
-                    .map { mapCartEntity(db, it) }
         }
     }
 
     private fun mapCartEntity(dataBase: NennoDataBase, recentCarts: List<CartEntity>): Cart {
         val cartDao = dataBase.cartDao()
+        val ingredientDao = dataBase.ingredientDao()
 
         return if (recentCarts.isEmpty()) {
             Cart.NULL
@@ -86,7 +90,8 @@ class RoomCartRepo(private val dbProvider: () -> Single<NennoDataBase>) : CartRe
 
             val pizzasByCartId = cartDao.getPizzasByCartId(cartId)
             val pizzas = pizzasByCartId.map {
-                val ingredientEntities = cartDao.getIngredientsByPizzaAndCartId(cartId, it.uid)
+                val cartPizzaEntity = cartDao.getCartPizzaEntityByCartIdAndPizzId(cartId, it.uid)
+                val ingredientEntities = ingredientDao.getIngredients(cartPizzaEntity.ingredients)
                 val ingredients = ingredientEntities.map(IngredientEntity::toDomainObject)
                 it.toDomainObject(ingredients)
             }
@@ -100,7 +105,7 @@ class RoomCartRepo(private val dbProvider: () -> Single<NennoDataBase>) : CartRe
     private fun yieldOrCreateNewCart(cartDao: CartDao, cart: Cart): String {
         return if (cart == Cart.NULL) {
             val newCart = CartEntity()
-            cartDao.insertCart(newCart)
+            cartDao.insertPizza(newCart)
             newCart.uid
         } else {
             cart.id

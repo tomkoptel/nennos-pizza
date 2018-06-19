@@ -13,37 +13,6 @@ private const val UID_KEY = "uid"
 private const val PID_KEY = "pid"
 
 @Entity(
-        tableName = "CartIngredient",
-        primaryKeys = arrayOf(PID_KEY, CART_ID_KEY, INGREDIENT_ID_KEY, PIZZA_ID_KEY),
-        foreignKeys = arrayOf(
-                ForeignKey(
-                        entity = CartEntity::class,
-                        parentColumns = arrayOf(UID_KEY),
-                        childColumns = arrayOf(CART_ID_KEY),
-                        onDelete = ForeignKey.CASCADE
-                ),
-                ForeignKey(
-                        entity = IngredientEntity::class,
-                        parentColumns = arrayOf(UID_KEY),
-                        childColumns = arrayOf(INGREDIENT_ID_KEY),
-                        onDelete = ForeignKey.CASCADE
-                ),
-                ForeignKey(
-                        entity = PizzaEntity::class,
-                        parentColumns = arrayOf(UID_KEY),
-                        childColumns = arrayOf(PIZZA_ID_KEY),
-                        onDelete = ForeignKey.CASCADE
-                )
-        )
-)
-data class CartIngredientEntity(
-        @ColumnInfo(name = PID_KEY) var pid: String = UUID.randomUUID().toString(),
-        @ColumnInfo(name = CART_ID_KEY) var cartId: String = "",
-        @ColumnInfo(name = INGREDIENT_ID_KEY) var ingredientId: String = "",
-        @ColumnInfo(name = PIZZA_ID_KEY) var pizzaId: String = ""
-)
-
-@Entity(
         tableName = "CartPizza",
         primaryKeys = arrayOf(PID_KEY, CART_ID_KEY, PIZZA_ID_KEY),
         foreignKeys = arrayOf(
@@ -64,7 +33,8 @@ data class CartIngredientEntity(
 data class CartPizzaEntity(
         @ColumnInfo(name = PID_KEY) var pid: String = UUID.randomUUID().toString(),
         @ColumnInfo(name = CART_ID_KEY) val cartId: String,
-        @ColumnInfo(name = PIZZA_ID_KEY) val pizzaId: String
+        @ColumnInfo(name = PIZZA_ID_KEY) val pizzaId: String,
+        val ingredients: String
 )
 
 @Entity(

@@ -80,7 +80,7 @@ class NennoDataBaseTest {
     @Test
     fun test_insert_cart_entity() {
         val cart = CartEntity()
-        cartDao.insertCart(cart)
+        cartDao.insertPizza(cart)
 
         val carts = cartDao.getRecentCarts().take(1).blockingFirst()
         carts shouldContain cart
@@ -100,19 +100,13 @@ class NennoDataBaseTest {
 
         val cart = CartEntity()
         val cartId = cart.uid
-        cartDao.insertCart(cart)
+        cartDao.insertPizza(cart)
         cartDao.getAllCarts() shouldContain cart
 
-        val cartPizzaEntity = CartPizzaEntity(pizzaId = pizzaId, cartId = cartId)
-        val cartIngredientEntity = CartIngredientEntity(cartId = cartId, pizzaId = pizzaId, ingredientId = ingredientId)
-        cartDao.insertCartPizzaWithIngredients(cartPizzaEntity, listOf(cartIngredientEntity))
+        val cartPizzaEntity = CartPizzaEntity(pizzaId = pizzaId, cartId = cartId, ingredients = ingredientId)
         cartDao.getAllCartPizzaEntity() shouldContain cartPizzaEntity
-        cartDao.getAllCartIngredientEntity() shouldContain cartIngredientEntity
 
         val pizzas = cartDao.getPizzasByCartId(cartId)
         pizzas shouldContain pizza
-
-        val ingredients = cartDao.getIngredientsByPizzaAndCartId(cartId = cartId, pizzaId = pizzaId)
-        ingredients shouldContain ingredient
     }
 }

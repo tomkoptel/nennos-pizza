@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "50d4e095efcf260e15d8c7826827f4f5",
+    "identityHash": "e4260981bf9ed3252e94e5fa4a4331f1",
     "entities": [
       {
         "tableName": "Pizza",
@@ -201,83 +201,8 @@
         ]
       },
       {
-        "tableName": "CartIngredient",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pid` TEXT NOT NULL, `cartId` TEXT NOT NULL, `ingredientId` TEXT NOT NULL, `pizzaId` TEXT NOT NULL, PRIMARY KEY(`pid`, `cartId`, `ingredientId`, `pizzaId`), FOREIGN KEY(`cartId`) REFERENCES `Cart`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`ingredientId`) REFERENCES `Ingredient`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`pizzaId`) REFERENCES `Pizza`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
-        "fields": [
-          {
-            "fieldPath": "pid",
-            "columnName": "pid",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "cartId",
-            "columnName": "cartId",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "ingredientId",
-            "columnName": "ingredientId",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "pizzaId",
-            "columnName": "pizzaId",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "pid",
-            "cartId",
-            "ingredientId",
-            "pizzaId"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": [
-          {
-            "table": "Cart",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "cartId"
-            ],
-            "referencedColumns": [
-              "uid"
-            ]
-          },
-          {
-            "table": "Ingredient",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "ingredientId"
-            ],
-            "referencedColumns": [
-              "uid"
-            ]
-          },
-          {
-            "table": "Pizza",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "pizzaId"
-            ],
-            "referencedColumns": [
-              "uid"
-            ]
-          }
-        ]
-      },
-      {
         "tableName": "CartPizza",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pid` TEXT NOT NULL, `cartId` TEXT NOT NULL, `pizzaId` TEXT NOT NULL, PRIMARY KEY(`pid`, `cartId`, `pizzaId`), FOREIGN KEY(`cartId`) REFERENCES `Cart`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`pizzaId`) REFERENCES `Pizza`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pid` TEXT NOT NULL, `cartId` TEXT NOT NULL, `pizzaId` TEXT NOT NULL, `ingredients` TEXT NOT NULL, PRIMARY KEY(`pid`, `cartId`, `pizzaId`), FOREIGN KEY(`cartId`) REFERENCES `Cart`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`pizzaId`) REFERENCES `Pizza`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "pid",
@@ -294,6 +219,12 @@
           {
             "fieldPath": "pizzaId",
             "columnName": "pizzaId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ingredients",
+            "columnName": "ingredients",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -392,7 +323,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"50d4e095efcf260e15d8c7826827f4f5\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e4260981bf9ed3252e94e5fa4a4331f1\")"
     ]
   }
 }
