@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/floating"
+        app:maxImageSize="56dp"
         app:srcCompat="@drawable/floating" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
