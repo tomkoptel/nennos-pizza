@@ -10,7 +10,12 @@ data class Pizza(
         val ingredients: List<Ingredient>
 ) : Item {
     override val price by lazy(LazyThreadSafetyMode.NONE) {
-        basePrice + ingredients.map(Ingredient::price).reduce { left, right -> left + right }
+        val ingredientsPrice = if (ingredients.isEmpty()) {
+            0.0
+        } else {
+            ingredients.map(Ingredient::price).reduce { left, right -> left + right }
+        }
+        basePrice + ingredientsPrice
     }
 
     val ingredientNames by lazy(LazyThreadSafetyMode.NONE) {

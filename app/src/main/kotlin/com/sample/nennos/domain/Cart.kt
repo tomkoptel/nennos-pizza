@@ -18,7 +18,7 @@ data class Cart(
     }
 
     val items: List<Item> by lazy(LazyThreadSafetyMode.NONE) {
-        pizzas + pizzas
+        pizzas + drinks
     }
 
     val size: Int = drinks.size + pizzas.size

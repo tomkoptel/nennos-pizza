@@ -16,19 +16,13 @@ class RoomCartRepo(private val dbProvider: () -> Single<NennoDataBase>) : CartRe
         return dbProvider().flatMap { database ->
             currentCart(database) { cart ->
                 val cartDao = database.cartDao()
+                val cartId = yieldOrCreateNewCart(cartDao, cart)
+                val pizzaId = item.id
 
-                val cartId = if (cart == Cart.NULL) {
-                    val newCart = CartEntity()
-                    cartDao.insertCart(newCart)
-                    newCart.uid
-                } else {
-                    cart.id
-                }
-
-                val cartPizzaEntity = CartPizzaEntity(cartId = cartId, pizzaId = item.id)
-                val cartIngredientEntity = item.ingredients.map { CartIngredientEntity(cartId = cartId, ingredientId = it.id, pizzaId = item.id) }
-
+                val cartPizzaEntity = CartPizzaEntity(cartId = cartId, pizzaId = pizzaId)
+                val cartIngredientEntity = item.ingredients.map { CartIngredientEntity(cartId = cartId, ingredientId = it.id, pizzaId = pizzaId) }
                 cartDao.insertCartPizzaWithIngredients(cartPizzaEntity, cartIngredientEntity)
+
                 item
             }
         }
@@ -38,19 +32,11 @@ class RoomCartRepo(private val dbProvider: () -> Single<NennoDataBase>) : CartRe
         return dbProvider().flatMap { database ->
             currentCart(database) { cart ->
                 val cartDao = database.cartDao()
-
-                // code duplicate
-                val cartId = if (cart == Cart.NULL) {
-                    val newCart = CartEntity()
-                    cartDao.insertCart(newCart)
-                    newCart.uid
-                } else {
-                    cart.id
-                }
+                val cartId = yieldOrCreateNewCart(cartDao, cart)
 
                 val cartDrinkEntity = CartDrinkEntity(cartId = cartId, drinkId = item.id)
-
                 cartDao.insertDrink(cartDrinkEntity)
+
                 item
             }
         }
@@ -59,11 +45,7 @@ class RoomCartRepo(private val dbProvider: () -> Single<NennoDataBase>) : CartRe
     override fun removeItemFromCart(item: Pizza): Single<Pizza> {
         return dbProvider().flatMap { database ->
             currentCart(database) { cart ->
-                val cartDao = database.cartDao()
-                val cartPizzaEntity = CartPizzaEntity(cartId = cart.id, pizzaId = item.id)
-                val cartIngredientEntity = item.ingredients.map { CartIngredientEntity(cartId = cart.id, ingredientId = it.id, pizzaId = item.id) }
-
-                cartDao.removePizzaIngredients(cartPizzaEntity, cartIngredientEntity)
+                database.cartDao().removePizzaIngredients(cartId = cart.id, pizzaId = item.id)
                 item
             }
         }
@@ -72,10 +54,7 @@ class RoomCartRepo(private val dbProvider: () -> Single<NennoDataBase>) : CartRe
     override fun removeItemFromCart(item: Drink): Single<Drink> {
         return dbProvider().flatMap { database ->
             currentCart(database) { cart ->
-                val cartDao = database.cartDao()
-                val cartDrinkEntity = CartDrinkEntity(cartId = cart.id, drinkId = item.id)
-
-                cartDao.removeDrink(cartDrinkEntity)
+                database.cartDao().removeDrink(cartId = cart.id, drinkId = item.id)
                 item
             }
         }
@@ -115,6 +94,16 @@ class RoomCartRepo(private val dbProvider: () -> Single<NennoDataBase>) : CartRe
             val drinks = drinksByCartId.map(DrinkEntity::toDomainObject)
 
             cart.toDomainObject(pizzas, drinks)
+        }
+    }
+
+    private fun yieldOrCreateNewCart(cartDao: CartDao, cart: Cart): String {
+        return if (cart == Cart.NULL) {
+            val newCart = CartEntity()
+            cartDao.insertCart(newCart)
+            newCart.uid
+        } else {
+            cart.id
         }
     }
 }

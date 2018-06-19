@@ -3,16 +3,18 @@ package com.sample.nennos.persistence
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import java.util.*
 
 private const val CART_ID_KEY = "cartId"
 private const val INGREDIENT_ID_KEY = "ingredientId"
 private const val PIZZA_ID_KEY = "pizzaId"
 private const val DRINK_ID_KEY = "drinkId"
 private const val UID_KEY = "uid"
+private const val PID_KEY = "pid"
 
 @Entity(
         tableName = "CartIngredient",
-        primaryKeys = arrayOf(CART_ID_KEY, INGREDIENT_ID_KEY, PIZZA_ID_KEY),
+        primaryKeys = arrayOf(PID_KEY, CART_ID_KEY, INGREDIENT_ID_KEY, PIZZA_ID_KEY),
         foreignKeys = arrayOf(
                 ForeignKey(
                         entity = CartEntity::class,
@@ -35,6 +37,7 @@ private const val UID_KEY = "uid"
         )
 )
 data class CartIngredientEntity(
+        @ColumnInfo(name = PID_KEY) var pid: String = UUID.randomUUID().toString(),
         @ColumnInfo(name = CART_ID_KEY) var cartId: String = "",
         @ColumnInfo(name = INGREDIENT_ID_KEY) var ingredientId: String = "",
         @ColumnInfo(name = PIZZA_ID_KEY) var pizzaId: String = ""
@@ -42,7 +45,7 @@ data class CartIngredientEntity(
 
 @Entity(
         tableName = "CartPizza",
-        primaryKeys = arrayOf(CART_ID_KEY, PIZZA_ID_KEY),
+        primaryKeys = arrayOf(PID_KEY, CART_ID_KEY, PIZZA_ID_KEY),
         foreignKeys = arrayOf(
                 ForeignKey(
                         entity = CartEntity::class,
@@ -59,13 +62,14 @@ data class CartIngredientEntity(
         )
 )
 data class CartPizzaEntity(
+        @ColumnInfo(name = PID_KEY) var pid: String = UUID.randomUUID().toString(),
         @ColumnInfo(name = CART_ID_KEY) val cartId: String,
         @ColumnInfo(name = PIZZA_ID_KEY) val pizzaId: String
 )
 
 @Entity(
         tableName = "CartDrink",
-        primaryKeys = arrayOf(CART_ID_KEY, DRINK_ID_KEY),
+        primaryKeys = arrayOf(PID_KEY, CART_ID_KEY, DRINK_ID_KEY),
         foreignKeys = arrayOf(
                 ForeignKey(
                         entity = CartEntity::class,
@@ -82,6 +86,7 @@ data class CartPizzaEntity(
         )
 )
 data class CartDrinkEntity(
+        @ColumnInfo(name = PID_KEY) var pid: String = UUID.randomUUID().toString(),
         @ColumnInfo(name = CART_ID_KEY) val cartId: String,
         @ColumnInfo(name = DRINK_ID_KEY) val drinkId: String
 )

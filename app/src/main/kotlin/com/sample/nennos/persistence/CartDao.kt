@@ -48,14 +48,6 @@ interface CartDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertDrink(entity: CartDrinkEntity)
 
-    @Delete
-    fun removePizza(entity: CartPizzaEntity)
-
-    @Delete
-    fun removeIngredients(entities: List<CartIngredientEntity>)
-
-    @Delete
-    fun removeDrink(entity: CartDrinkEntity)
 
     @Query("SELECT * FROM Cart")
     fun getAllCarts(): List<CartEntity>
@@ -76,8 +68,18 @@ interface CartDao {
     }
 
     @Transaction
-    fun removePizzaIngredients(entity: CartPizzaEntity, entities: List<CartIngredientEntity>) {
-        removePizza(entity)
-        removeIngredients(entities)
+    fun removePizzaIngredients(cartId: String, pizzaId: String) {
+        removePizza(cartId, pizzaId)
+        removeIngredients(cartId, pizzaId)
     }
+
+    @Query("DELETE FROM CartPizza WHERE CartPizza.cartId = :cartId AND CartPizza.pizzaId = :pizzaId")
+    fun removePizza(cartId: String, pizzaId: String)
+
+    @Query("DELETE FROM CartIngredient WHERE CartIngredient.cartId = :cartId AND CartIngredient.pizzaId = :pizzaId")
+    fun removeIngredients(cartId: String, pizzaId: String)
+
+    @Query("DELETE FROM CartDrink WHERE CartDrink.cartId = :cartId AND CartDrink.drinkId = :drinkId")
+    fun removeDrink(cartId: String, drinkId: String)
+
 }

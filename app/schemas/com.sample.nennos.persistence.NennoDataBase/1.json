@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "bfee20b178531ba063193bb773f2b302",
+    "identityHash": "50d4e095efcf260e15d8c7826827f4f5",
     "entities": [
       {
         "tableName": "Pizza",
@@ -202,8 +202,14 @@
       },
       {
         "tableName": "CartIngredient",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cartId` TEXT NOT NULL, `ingredientId` TEXT NOT NULL, `pizzaId` TEXT NOT NULL, PRIMARY KEY(`cartId`, `ingredientId`, `pizzaId`), FOREIGN KEY(`cartId`) REFERENCES `Cart`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`ingredientId`) REFERENCES `Ingredient`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`pizzaId`) REFERENCES `Pizza`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pid` TEXT NOT NULL, `cartId` TEXT NOT NULL, `ingredientId` TEXT NOT NULL, `pizzaId` TEXT NOT NULL, PRIMARY KEY(`pid`, `cartId`, `ingredientId`, `pizzaId`), FOREIGN KEY(`cartId`) REFERENCES `Cart`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`ingredientId`) REFERENCES `Ingredient`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`pizzaId`) REFERENCES `Pizza`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
+          {
+            "fieldPath": "pid",
+            "columnName": "pid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
           {
             "fieldPath": "cartId",
             "columnName": "cartId",
@@ -225,6 +231,7 @@
         ],
         "primaryKey": {
           "columnNames": [
+            "pid",
             "cartId",
             "ingredientId",
             "pizzaId"
@@ -270,8 +277,14 @@
       },
       {
         "tableName": "CartPizza",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cartId` TEXT NOT NULL, `pizzaId` TEXT NOT NULL, PRIMARY KEY(`cartId`, `pizzaId`), FOREIGN KEY(`cartId`) REFERENCES `Cart`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`pizzaId`) REFERENCES `Pizza`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pid` TEXT NOT NULL, `cartId` TEXT NOT NULL, `pizzaId` TEXT NOT NULL, PRIMARY KEY(`pid`, `cartId`, `pizzaId`), FOREIGN KEY(`cartId`) REFERENCES `Cart`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`pizzaId`) REFERENCES `Pizza`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
+          {
+            "fieldPath": "pid",
+            "columnName": "pid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
           {
             "fieldPath": "cartId",
             "columnName": "cartId",
@@ -287,6 +300,7 @@
         ],
         "primaryKey": {
           "columnNames": [
+            "pid",
             "cartId",
             "pizzaId"
           ],
@@ -320,8 +334,14 @@
       },
       {
         "tableName": "CartDrink",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cartId` TEXT NOT NULL, `drinkId` TEXT NOT NULL, PRIMARY KEY(`cartId`, `drinkId`), FOREIGN KEY(`cartId`) REFERENCES `Cart`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`drinkId`) REFERENCES `Drink`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pid` TEXT NOT NULL, `cartId` TEXT NOT NULL, `drinkId` TEXT NOT NULL, PRIMARY KEY(`pid`, `cartId`, `drinkId`), FOREIGN KEY(`cartId`) REFERENCES `Cart`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`drinkId`) REFERENCES `Drink`(`uid`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
+          {
+            "fieldPath": "pid",
+            "columnName": "pid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
           {
             "fieldPath": "cartId",
             "columnName": "cartId",
@@ -337,6 +357,7 @@
         ],
         "primaryKey": {
           "columnNames": [
+            "pid",
             "cartId",
             "drinkId"
           ],
@@ -371,7 +392,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"bfee20b178531ba063193bb773f2b302\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"50d4e095efcf260e15d8c7826827f4f5\")"
     ]
   }
 }
