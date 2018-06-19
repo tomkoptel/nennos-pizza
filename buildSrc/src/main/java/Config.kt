@@ -1,7 +1,7 @@
 object Versions {
     const val kotlinVersion = "1.2.50"
     const val compileSdkVersion = "android-P"
-    const val minSdkVersion = 15
+    const val minSdkVersion = 19
     const val targetSdkVersion = "P"
     const val versionCode = 1
     const val versionName = "1.0"
