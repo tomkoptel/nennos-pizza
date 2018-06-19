@@ -26,13 +26,13 @@
             <FrameLayout
                 android:id="@+id/frameLayout"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="@dimen/pizza_container"
                 android:background="@drawable/bg_wood">
 
                 <ImageView
                     android:id="@+id/pizzaImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/pizza_width"
+                    android:layout_height="@dimen/pizza_height"
                     android:layout_gravity="center"
                     tools:ignore="ContentDescription" />
             </FrameLayout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="pizza_width">300dp</dimen>
+    <dimen name="pizza_height">300dp</dimen>
+    <dimen name="pizza_container">400dp</dimen>
+</resources>
