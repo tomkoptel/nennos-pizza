@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private var destination: NavDestination? = null
@@ -24,7 +23,15 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController)
         navController.addOnNavigatedListener { _, newDestination ->
             destination = newDestination
+            if (isAHomePage()) {
+                customPizza.show()
+            } else {
+                customPizza.hide()
+            }
             invalidateOptionsMenu()
+        }
+
+        customPizza.setOnClickListener {
         }
     }
 
@@ -37,10 +44,7 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.show_cart_page)
         }
 
-        destination?.let {
-            val isAHomePage = (it.id == R.id.pizza_list_home)
-            cartMenuItem?.isVisible = isAHomePage
-        }
+        cartMenuItem?.isVisible = isAHomePage()
         return true
     }
 
@@ -51,4 +55,6 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp()
     }
+
+    private fun isAHomePage(): Boolean = destination?.id == R.id.pizza_list_home
 }

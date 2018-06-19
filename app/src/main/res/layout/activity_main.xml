@@ -34,4 +34,13 @@
         tools:ignore="PrivateResource"
         tools:layout="@layout/pizza_list_fragment" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/customPizza"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/floating"
+        app:srcCompat="@drawable/floating" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
