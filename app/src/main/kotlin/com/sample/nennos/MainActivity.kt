@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
+import com.sample.nennos.ktx.toParcelable
+import com.sample.nennos.persistence.Seed
 
 class MainActivity : AppCompatActivity() {
     private var destination: NavDestination? = null
@@ -32,6 +35,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         customPizza.setOnClickListener {
+            val args = bundleOf("details" to Seed.custom.toParcelable())
+            navController.navigate(R.id.show_pizza_detail, args)
         }
     }
 

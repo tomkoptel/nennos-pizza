@@ -5,7 +5,8 @@ import java.util.*
 data class Pizza(
         override val id: String = UUID.randomUUID().toString(),
         override val name: String,
-        var basePrice: Double = 0.0,
+        val basePrice: Double = 0.0,
+        val visible: Boolean = true,
         val imageUrl: String? = null,
         val ingredients: List<Ingredient>
 ) : Item {
