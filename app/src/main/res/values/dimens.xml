@@ -3,4 +3,5 @@
     <dimen name="pizza_width">300dp</dimen>
     <dimen name="pizza_height">300dp</dimen>
     <dimen name="pizza_container">400dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

@@ -10,8 +10,8 @@ class PizzaTest {
                 name = "Any",
                 basePrice = 10.0,
                 ingredients = listOf(
-                        Ingredient(name = "any", price = 1.5),
-                        Ingredient(name = "any", price = 2.5)
+                        Ingredient(name = "any", price = 1.5, remoteId = 1),
+                        Ingredient(name = "any", price = 2.5, remoteId = 2)
                 )
         ).price `should be equal to` 14.0
     }

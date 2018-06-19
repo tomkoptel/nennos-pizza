@@ -24,7 +24,9 @@ class MainApp : Application(), KodeinAware {
         import(domainModule)
         import(netModule)
         bind<AppSchedulers>() with provider { AppSchedulerProvider }
-        bind<Picasso>() with singleton { Picasso.Builder(instance()).build() }
+        bind<Picasso>() with singleton {
+            Picasso.Builder(instance()).build().apply { isLoggingEnabled = BuildConfig.DEBUG }
+        }
     }
 
     override fun onCreate() {

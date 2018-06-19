@@ -6,10 +6,10 @@ import com.sample.nennos.domain.Pizza
 import com.sample.nennos.domain.Store
 import io.reactivex.Single
 
-class RoomPizzaStore(private val dbProvider: () -> Single<NennoDataBase>) : Store<Pizza> {
+class RoomPizzaStore(private val dbProvider: () -> Single<NennoDataBase>, private val customPizza: () -> Pizza) : Store<Pizza> {
     constructor(factory: NennoDataBase.Factory) : this({
         factory.getDatabase()
-    })
+    }, { Seed.custom })
 
     override fun findById(entityId: String) = dbProvider().map {
         val pizzaDao = it.pizzaDao()
@@ -27,13 +27,17 @@ class RoomPizzaStore(private val dbProvider: () -> Single<NennoDataBase>) : Stor
             val ingredientEntities = it.ingredients.map(Ingredient::toDataObject)
 
             pizzaEntity to ingredientEntities
-        }.toMap()
+        }.toMap().toMutableMap()
 
         val pizzaEntities = pizzaWithIngredients.keys
         it.pizzaDao().insertAll(pizzaEntities)
 
         val ingredientEntities = pizzaWithIngredients.values.flatten().toHashSet()
         it.ingredientDao().insertAll(ingredientEntities)
+
+        // Make the custom pizza dependent on the all ingredients
+        val customPizza = customPizza().toDataObject()
+        pizzaWithIngredients[customPizza] = ingredientEntities.toList()
 
         val joinEntities = PizzaIngredientEntity.fromMapping(pizzaWithIngredients)
         it.pizzaIngredientJoinDao().insertAll(joinEntities)

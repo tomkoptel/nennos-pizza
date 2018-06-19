@@ -42,7 +42,7 @@ fun Drink.formattedPrice(): String {
 }
 
 fun Pizza.toChoice(): PizzaChoice {
-    val ingredients = ingredients.map { IngredientChoice(it, true) }
+    val ingredients = ingredients.map { IngredientChoice(it, false) }
     return PizzaChoice(this, ingredients).apply { price }
 }
 

@@ -5,7 +5,7 @@ import androidx.room.Query
 
 @Dao
 interface PizzaDao : BaseDao<PizzaEntity> {
-    @Query("SELECT * FROM Pizza")
+    @Query("SELECT * FROM Pizza WHERE Pizza.visible = 1")
     fun getPizzas(): List<PizzaEntity>
 
     @Query("SELECT * FROM Pizza WHERE Pizza.uid=:pizzaId")

@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
+import com.sample.nennos.ktx.toParcelable
+import com.sample.nennos.persistence.Seed
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -24,7 +27,17 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController)
         navController.addOnNavigatedListener { _, newDestination ->
             destination = newDestination
+            if (isAHomePage()) {
+                customPizza.show()
+            } else {
+                customPizza.hide()
+            }
             invalidateOptionsMenu()
+        }
+
+        customPizza.setOnClickListener {
+            val args = bundleOf("details" to Seed.custom.toParcelable())
+            navController.navigate(R.id.show_pizza_detail, args)
         }
     }
 
@@ -37,10 +50,7 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.show_cart_page)
         }
 
-        destination?.let {
-            val isAHomePage = (it.id == R.id.pizza_list_home)
-            cartMenuItem?.isVisible = isAHomePage
-        }
+        cartMenuItem?.isVisible = isAHomePage()
         return true
     }
 
@@ -51,4 +61,6 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp()
     }
+
+    private fun isAHomePage(): Boolean = destination?.id == R.id.pizza_list_home
 }

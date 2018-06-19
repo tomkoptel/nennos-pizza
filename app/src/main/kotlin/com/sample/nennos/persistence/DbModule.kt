@@ -9,7 +9,7 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
 
-val dbModule = Kodein.Module {
+val dbModule = Kodein.Module(name = "database-module") {
     bind<NennoDataBase.Factory>() with singleton { NennoDataBase.Factory(instance()) }
     bind<Store<Pizza>>(Store.Type.DISK) with singleton { RoomPizzaStore(instance<NennoDataBase.Factory>()) }
     bind<Store<Drink>>(Store.Type.DISK) with singleton { RoomDrinkStore(instance<NennoDataBase.Factory>()) }

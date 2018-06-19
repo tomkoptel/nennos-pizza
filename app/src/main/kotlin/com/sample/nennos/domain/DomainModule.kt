@@ -5,7 +5,7 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
 
-val domainModule = Kodein.Module {
+val domainModule = Kodein.Module(name = "domain-module") {
     bind<Repo<Pizza>>(Pizza::class) with singleton {
         DiskNetworkStore<Pizza>(
                 diskStore = instance(Store.Type.DISK),

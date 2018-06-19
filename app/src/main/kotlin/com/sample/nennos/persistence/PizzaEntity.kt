@@ -11,16 +11,24 @@ data class PizzaEntity @JvmOverloads constructor(
         @PrimaryKey var uid: String = UUID.randomUUID().toString(),
         var name: String = "",
         var basePrice: Double = 0.0,
-        var imageUrl: String? = null
+        var imageUrl: String? = null,
+        var visible: Boolean = true
 )
 
-fun Pizza.toDataObject(): PizzaEntity = PizzaEntity(uid = id, name = name, imageUrl = imageUrl, basePrice = basePrice)
+fun Pizza.toDataObject(): PizzaEntity = PizzaEntity(
+        uid = id,
+        name = name,
+        imageUrl = imageUrl,
+        basePrice = basePrice,
+        visible = visible
+)
 
 fun PizzaEntity.toDomainObject(ingredients: List<Ingredient>): Pizza {
     return Pizza(id = uid,
             name = name,
             imageUrl = imageUrl,
             ingredients = ingredients,
-            basePrice = basePrice
+            basePrice = basePrice,
+            visible = visible
     )
 }

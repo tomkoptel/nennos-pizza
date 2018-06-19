@@ -8,7 +8,7 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
 
-val netModule = Kodein.Module {
+val netModule = Kodein.Module(name = "network-module") {
     bind<ApiService>() with singleton { ApiService.create() }
     bind<Store<Pizza>>(Store.Type.NETWORK) with singleton { NetPizzaStore(instance()) }
     bind<Store<Drink>>(Store.Type.NETWORK) with singleton { NetDrinkStore(instance()) }

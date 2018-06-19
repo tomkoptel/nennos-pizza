@@ -1,8 +1,8 @@
 object Versions {
     const val kotlinVersion = "1.2.50"
-    const val compileSdkVersion = "android-P"
-    const val minSdkVersion = 15
-    const val targetSdkVersion = "P"
+    const val compileSdkVersion = 28
+    const val minSdkVersion = 19
+    const val targetSdkVersion = 28
     const val versionCode = 1
     const val versionName = "1.0"
 }
@@ -64,7 +64,7 @@ object Deps {
     const val timber = "com.jakewharton.timber:timber:4.7.0"
 
     // DI
-    private const val kodeinVersion = "5.0.0"
+    private const val kodeinVersion = "5.1.0"
     const val kodeinJvm = "org.kodein.di:kodein-di-generic-jvm:$kodeinVersion"
     const val kodeinAndroid = "org.kodein.di:kodein-di-framework-android:$kodeinVersion"
 

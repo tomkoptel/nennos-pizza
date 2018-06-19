@@ -41,11 +41,10 @@ class RoomPizzaStoreTest {
 
     @Before
     fun setUp() {
-        database = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getContext(),
-                NennoDataBase::class.java)
+        database = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getContext(), NennoDataBase::class.java)
                 .allowMainThreadQueries()
                 .build()
-        roomStore = RoomPizzaStore { Single.just(database) }
+        roomStore = RoomPizzaStore({ Single.just(database) }, { hawaiiPizza })
     }
 
     @After
