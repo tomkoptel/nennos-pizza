@@ -16,11 +16,11 @@ class NetPizzaStoreRepoTest {
     private val repoUnderTest = NetPizzaStore(apiService = mockApiService)
 
     private val error = HttpServerError("Fail!")
-    private val pizza = PizzaData(name = "Chili Pizza", ingredients = listOf("1", "2"))
+    private val pizza = PizzaData(name = "Chili Pizza", ingredients = listOf(1, 2))
     private val pizzaData = PizzasData(pizzas = listOf(pizza), basePrice = 4.0)
-    private val ingredient1 = IngredientData(name = "Chili pepper", price = 1.0, id = "1")
-    private val ingredient2 = IngredientData(name = "Salami", price = 2.0, id = "2")
-    private val ingredient3 = IngredientData(name = "Tofu", price = 5.0, id = "3")
+    private val ingredient1 = IngredientData(name = "Chili pepper", price = 1.0, id = 1)
+    private val ingredient2 = IngredientData(name = "Salami", price = 2.0, id = 2)
+    private val ingredient3 = IngredientData(name = "Tofu", price = 5.0, id = 3)
     private val ingredients = listOf(ingredient1, ingredient2, ingredient3)
 
     @Test

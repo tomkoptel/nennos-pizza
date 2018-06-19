@@ -10,6 +10,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.sample.nennos.ktx.toParcelable
 import com.sample.nennos.persistence.Seed
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private var destination: NavDestination? = null
