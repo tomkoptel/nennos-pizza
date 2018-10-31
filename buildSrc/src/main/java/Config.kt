@@ -1,5 +1,5 @@
 object Versions {
-    const val kotlinVersion = "1.2.50"
+    const val kotlinVersion = "1.2.71"
     const val compileSdkVersion = 28
     const val minSdkVersion = 19
     const val targetSdkVersion = 28
@@ -84,7 +84,7 @@ object Deps {
 }
 
 object Plugins {
-    const val androidTools = "com.android.tools.build:gradle:3.2.0-alpha18"
+    const val androidTools = "com.android.tools.build:gradle:3.2.0"
     const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlinVersion}"
     const val navPlugin = "android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0-alpha02"
 }
