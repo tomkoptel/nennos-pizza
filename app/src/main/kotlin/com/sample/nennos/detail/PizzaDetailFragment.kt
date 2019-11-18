@@ -28,7 +28,7 @@ import timber.log.Timber
 
 class PizzaDetailFragment : KodeinFragment() {
     override fun activityModule() =
-            Kodein.Module {
+            Kodein.Module(name = "DetailsModule") {
                 bind<PizzaIngredientsAdapter>() with provider { PizzaIngredientsAdapter(instance()) }
                 bind<PizzaDetailViewModel>() with provider {
                     instance<FragmentActivity>().provideModel { PizzaDetailViewModel(instance(Pizza::class), instance()) }
@@ -56,13 +56,16 @@ class PizzaDetailFragment : KodeinFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val args = checkNotNull(arguments) { "Developer error! You should start activity with onPizzaChange id." }
-        val details = args.getParcelable("details") as PizzaDetails
+        val details = args.getParcelable<PizzaDetails>("details")
 
-        pizzaImage.load(picasso, details.imageUrl)
-        addToCard.setPrice(details.formattedPrice())
-        details.name.let {
-            toolbar?.title = it
-            pizzaImage.contentDescription = it
+        details?.let {
+            pizzaImage.load(picasso, it.imageUrl)
+            addToCard.setPrice(it.formattedPrice())
+
+            it.name.let {
+                toolbar?.title = it
+                pizzaImage.contentDescription = it
+            }
         }
 
         recyclerView.apply {
@@ -75,7 +78,10 @@ class PizzaDetailFragment : KodeinFragment() {
 
         if (savedInstanceState == null) {
             progressBar.show()
-            detailViewModel.loadPizza(details.id)
+
+            details?.id?.let {
+                detailViewModel.loadPizza(it)
+            }
         }
 
         detailViewModel.onPizzaChange.observeNonNull(viewLifecycleOwner) {

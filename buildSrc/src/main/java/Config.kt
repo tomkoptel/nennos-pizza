@@ -1,27 +1,27 @@
 object Versions {
-    const val kotlinVersion = "1.2.71"
-    const val compileSdkVersion = 28
+    const val kotlinVersion = "1.3.50"
+    const val compileSdkVersion = 29
     const val minSdkVersion = 19
-    const val targetSdkVersion = 28
+    const val targetSdkVersion = 29
     const val versionCode = 1
     const val versionName = "1.0"
 }
 
 object Deps {
     // Android Jetpack
-    private const val androidxViewVersion = "1.0.0-alpha3"
+    private const val androidxViewVersion = "1.1.0"
     const val androidXcore = "androidx.core:core:$androidxViewVersion"
     const val appCompat = "androidx.appcompat:appcompat:$androidxViewVersion"
-    const val material = "com.google.android.material:material:$androidxViewVersion"
-    const val recyclerView = "androidx.recyclerview:recyclerview:$androidxViewVersion"
-    const val constraintLayout = "androidx.constraintlayout:constraintlayout:1.1.0"
+    const val material = "com.google.android.material:material:1.1.0-beta02"
+    const val recyclerView = "androidx.recyclerview:recyclerview:1.1.0-rc01"
+    const val constraintLayout = "androidx.constraintlayout:constraintlayout:1.1.3"
 
-    private const val navVersion = "1.0.0-alpha02"
-    const val navFragment = "android.arch.navigation:navigation-fragment-ktx:$navVersion"
-    const val navUi = "android.arch.navigation:navigation-ui-ktx:$navVersion"
-    const val navTesting = "android.arch.navigation:navigation-testing:$navVersion"
+    private const val navVersion = "2.1.0"
+    const val navFragment = "androidx.navigation:navigation-fragment-ktx:$navVersion"
+    const val navUi = "androidx.navigation:navigation-ui-ktx:$navVersion"
+    const val navTesting =  "android.arch.navigation:navigation-testing:1.0.0-alpha08"
 
-    private const val lifecycleVersion = "2.0.0-alpha1"
+    private const val lifecycleVersion = "2.1.0"
     const val liveData = "androidx.lifecycle:lifecycle-livedata:$lifecycleVersion"
     const val liveDataReactive = "androidx.lifecycle:lifecycle-reactivestreams:$lifecycleVersion"
 
@@ -45,7 +45,7 @@ object Deps {
     const val okReplayTest = "com.airbnb.okreplay:junit:$okReplayVersion"
 
     //DB
-    private const val roomVersion = "2.0.0-alpha1"
+    private const val roomVersion = "2.1.0"
     const val roomCommon = "androidx.room:room-common:$roomVersion"
     const val roomCompiler = "androidx.room:room-compiler:$roomVersion"
     const val roomMigration = "androidx.room:room-migration:$roomVersion"
@@ -74,17 +74,17 @@ object Deps {
     const val kluentAndroid = "org.amshove.kluent:kluent-android:$kluentVersion"
     const val junit4 = "junit:junit:4.12"
 
-    private const val mockVersion = "1.8.3"
+    private const val mockVersion = "1.9"
     const val mockk = "io.mockk:mockk:$mockVersion"
     const val mockkAndroid = "io.mockk:mockk-android:$mockVersion"
 
     // UI testing
-    const val espressoContrib = "androidx.test.espresso:espresso-contrib:3.1.0-alpha3"
-    const val androidTestRules = "androidx.test:rules:1.1.0-alpha3"
+    const val espressoContrib = "androidx.test.espresso:espresso-contrib:3.2.0"
+    const val androidTestRules = "androidx.test:rules:1.2.0"
 }
 
 object Plugins {
-    const val androidTools = "com.android.tools.build:gradle:3.2.0"
+    const val androidTools = "com.android.tools.build:gradle:3.5.2"
     const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlinVersion}"
-    const val navPlugin = "android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0-alpha02"
+    const val navPlugin = "androidx.navigation:navigation-safe-args-gradle-plugin:2.1.0"
 }

@@ -26,7 +26,7 @@ private const val CHECKOUT_TAG = "CHECKOUT_TAG"
 
 class CartFragment : KodeinFragment() {
     override fun activityModule() =
-            Kodein.Module {
+            Kodein.Module(name = "CartModule") {
                 bind<CartItemsAdapter>() with provider { CartItemsAdapter(instance()) }
                 bind<CartViewModel>() with provider { CartViewModel(instance(), instance()) }
             }
@@ -100,7 +100,7 @@ class CartFragment : KodeinFragment() {
 
         (activity as FragmentActivity).observeDialogEvents {
             if (it is DialogEvent.OnShow) {
-                it.dialog.window.setBackgroundDrawableResource(android.R.color.transparent)
+                it.dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
             }
         }
     }

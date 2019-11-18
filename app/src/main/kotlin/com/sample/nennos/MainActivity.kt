@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         NavigationUI.setupActionBarWithNavController(this, navController)
-        navController.addOnNavigatedListener { _, newDestination ->
+        navController.addOnDestinationChangedListener { _, newDestination, _ ->
             destination = newDestination
             if (isAHomePage()) {
                 customPizza.show()
